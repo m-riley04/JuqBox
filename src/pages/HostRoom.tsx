@@ -49,17 +49,17 @@ function HostRoom() {
                 </Form.Group>
                 <Form.Group controlId="maxGuests">
                     <Form.Label>Maximum Guests</Form.Label>
-                    <Form.Range min={1} max={999} value={100} onChange={handleMaxGuestsChange}></Form.Range>
+                    <Form.Range min={1} max={999} step={1} defaultValue={100} onChange={handleMaxGuestsChange}></Form.Range>
                 </Form.Group>
 
                 <Form.Group controlId="maxCocurrentQueues">
                     <Form.Label>Maximum Concurrent Queues</Form.Label>
-                    <Form.Range min={1} max={50} value={10} onChange={handleMaxConcurrentQueuesChange}></Form.Range>
+                    <Form.Range min={1} max={50} step={1} defaultValue={10} onChange={handleMaxConcurrentQueuesChange}></Form.Range>
                 </Form.Group>
 
                 <Form.Group controlId="costPerQueue">
                     <Form.Label>Cost Per Queue</Form.Label>
-                    <Form.Range min={0} max={5} value={0} onChange={handleCostPerQueueChange}></Form.Range>
+                    <Form.Range min={0} max={5} step={0.25} defaultValue={0} onChange={handleCostPerQueueChange}></Form.Range>
                 </Form.Group>
             </Form>
 
