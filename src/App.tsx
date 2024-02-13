@@ -6,7 +6,8 @@ import JoinRoom from "./pages/JoinRoom";
 import Account from "./pages/Account";
 import Login from "./pages/Login";
 import CreateAccount from "./pages/CreateAccount";
-import NavigationBar from "./components/NavigationBar";
+import NavigationBar from "./components/NavigationBar/NavigationBar";
+import "./stylesheet.scss";
 
 
 function App() {
