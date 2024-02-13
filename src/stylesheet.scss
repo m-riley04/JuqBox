@@ -1,0 +1,23 @@
+
+
+$primary: #00c74c;
+$secondary: #029e3d;
+
+$button: #00c74c;
+$button-hover: #04b849;
+$button-click: #019c3c;
+
+@import "bootstrap";
+
+button:hover {
+    background-color: $button-hover;
+}
+button:active {
+    background-color: $button-click;
+}
+button {
+    background-color: $button;
+    padding: 10px;
+    border-width: 0;
+    border-radius: 15px;
+}
