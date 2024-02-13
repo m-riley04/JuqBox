@@ -1,10 +1,11 @@
 import { Nav, Navbar } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import "./NavigationBar.scss";
 
 function NavigationBar() {
     return (
         <>
-            <Navbar>
+            <Navbar className="navbar">
                 <Navbar.Collapse>
                     <Nav className="me-auto">
                         <Nav.Link as={Link} to="">Home</Nav.Link>
