@@ -1,8 +1,6 @@
 import express from 'express';
 import * as dbOps from './dbOperations.js';
 
-// const { PrismaClient } = require('@prisma/client'); // If using Prisma
-// const prisma = new PrismaClient();
 const app = express();
 const PORT = process.env.PORT || 3001;
 
