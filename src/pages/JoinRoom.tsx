@@ -13,7 +13,6 @@ function JoinRoom() {
         // Stop page refreshing
         event?.preventDefault();
 
-        
         console.log("Attempting to join room...")
     }
 
