@@ -1,3 +1,4 @@
+import process from "process";
 import express from 'express';
 import * as dbOps from './dbOperations.js';
 
