@@ -86,6 +86,13 @@ async function checkUserUsername(username: string) {
     const count = await connection.execute(`SELECT username FROM users WHERE username='${username}'`);
     return JSON.stringify(count);
 }
+
+// Function to check an email address
+async function checkUserEmail(email: string) {
+    const count = await connection.execute(`SELECT email FROM users WHERE email='${email}'`);
+    return JSON.stringify(count);
+}
+
 // Function to get a row by ID
 async function getRowById(tableName: string | undefined, id: string | undefined) {
     const row = await connection.execute(`SELECT * FROM ${tableName} WHERE id = ?`, [id]);
