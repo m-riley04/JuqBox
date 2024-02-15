@@ -6,39 +6,59 @@ function Admin() {
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState();
 
-    function handleAddRow() {
-        setLoading(true);
-        fetch('/.netlify/functions/database/addRow', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                name: 'test room',
+    function handleAddRoom() {
+        const body = JSON.stringify({
+            tableName: "rooms",
+            values: {
+                name: "testroom",
                 code: 12345,
                 guest_ids: [],
-                max_queries_per_guest: 5,
+                max_queues_per_guest: 5,
                 queue_cost: 0
-            })
+            }
+        })
+        fetch('/.netlify/functions/database/addRow', {
+            method: 'POST',
+            body
         })
         .then(response => {
             if (!response.ok) {
                 throw new Error("Network response was not okay");
             }
-            return response.json();
-        })
-        .then(data => {
-            setData(data);
-            console.log(data);
-            setLoading(false);
+            console.log("Room created successfully!");
         })
         .catch(error => {
             console.error(error);
-            setLoading(false);
+        })
+    }
+
+    function handleAddUser() {
+        const body = JSON.stringify({
+            tableName: "users",
+            values: {
+                id: 0,
+                username: "test",
+                password_hash: "admin123",
+                email: "test@example.com"
+            }
+        })
+        fetch('/.netlify/functions/database/addRow', {
+            method: 'POST',
+            body
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Network response was not okay");
+            }
+            console.log("User created successfully!");
+        })
+        .catch(error => {
+            console.error(error);
         })
     }
 
     function handleGetRooms() {
-        setLoading(true);
-        const response = fetch('/.netlify/functions/database/getAllRooms', { method: "GET" })
+        fetch('/.netlify/functions/database/getAllRooms', { method: "GET" })
         .then(response => {
             if (!response.ok) {
                 throw new Error("Network response was not okay");
@@ -47,19 +67,15 @@ function Admin() {
         })
         .then(data => {
             setData(data);
-            console.log(data);
-            setLoading(false);
+            console.log(`Rooms: ${JSON.stringify(data)}`);
         })
         .catch(error => {
             console.error(error);
-            setLoading(false);
         })
     }
 
     function handleGetUsers() {
-        //setLoading(true);
-        const response = fetch('/.netlify/functions/database/getAllUsers', { method: "GET" });
-        /*
+        const response = fetch('/.netlify/functions/database/getAllUsers', { method: "GET" })
         .then(response => {
             if (!response.ok) {
                 throw new Error("Network response was not okay");
@@ -68,14 +84,11 @@ function Admin() {
         })
         .then(data => {
             setData(data);
-            console.log(data);
-            setLoading(false);
+            console.log(`Users: ${JSON.stringify(data)}`);
         })
         .catch(error => {
             console.error(error);
-            setLoading(false);
         })
-        */
     }
 
     useEffect(() => {
@@ -88,28 +101,19 @@ function Admin() {
             console.log("Password accepted!");
         }
     }, []);
-    
-    
-    if (passwordAccepted) return (
-        <>
-            <button onClick={handleAddRow}>Add row</button>
-            <button onClick={handleGetRooms}>Read rows</button>
-            <button onClick={handleGetUsers}>Get users</button>
-        </>
-    );
-    
+
     if (loading) return (
         <>
             <p>Loading...</p>
         </>
     );
 
-    if (data) return (
+    if (passwordAccepted) return (
         <>
-            <button onClick={handleAddRow}>Add row</button>
-            <button onClick={handleGetRooms}>Get rows</button>
+            <button onClick={handleAddRoom}>Add room</button>
+            <button onClick={handleAddUser}>Add user</button>
+            <button onClick={handleGetRooms}>Read rows</button>
             <button onClick={handleGetUsers}>Get users</button>
-            <p>{data}</p>
         </>
     );
 
