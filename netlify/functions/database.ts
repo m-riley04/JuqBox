@@ -1,33 +1,6 @@
 import type { Handler, HandlerEvent } from "@netlify/functions";
 import connection from "@netlify/planetscale";
 
-/**
- * Interface for the room table's rows
- * @key the title of the column
- * @value the value of the column
- */
-export interface Room {
-    id: string,
-    code: string,
-    name: string,
-    max_guests: number,
-    guest_ids: number[],
-    max_queues_per_guest: number,
-    queue_cost: number
-}
-
-/**
- * Interface for the user table's rows
- * @key the title of the column
- * @value the value of the column
- */
-export interface User {
-    id: number,
-    username: string,
-    password_hash: string,
-    email: string
-}
-
 // Function to create a table
 async function createTable(body: string | null) {
     const { schema } = JSON.parse(body);
