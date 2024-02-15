@@ -7,10 +7,8 @@ function CreateAccount() {
     const [confirmedEmail, setConfirmedEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmedPassword, setConfirmedPassword] = useState("");
-    const [emailsMatch, setEmailsMatch] = useState(false);
-    const [passwordsMatch, setPasswordsMatch] = useState(false);
 
-    function handleCreateAccount(event) {
+    function handleCreateAccount() {
 
     }
 
@@ -21,7 +19,6 @@ function CreateAccount() {
 
     function handleChangedEmail(event) {
         setEmail(event.target.value);
-        setEmailsMatch(email == confirmedEmail);
         if (email == confirmedEmail) {
             console.log("Match")
             event.target.style = { backgroundColor: "red"}
@@ -31,19 +28,16 @@ function CreateAccount() {
 
     function handleChangedConfirmedEmail(event) {
         setConfirmedEmail(event.target.value);
-        setEmailsMatch(email === confirmedEmail);
         console.log(confirmedEmail);
     }
 
     function handleChangedPassword(event) {
         setPassword(event.target.value);
-        setPasswordsMatch(password === confirmedPassword);
         console.log(password)
     }
 
     function handleChangedConfirmedPassword(event) {
         setConfirmedPassword(event.target.value);
-        setPasswordsMatch(password === confirmedPassword);
         console.log(confirmedPassword)
     }
 
