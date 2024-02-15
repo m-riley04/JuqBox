@@ -20,6 +20,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "functions/database.ts"],
+  "include": ["src", "netlify/functions/database.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
