@@ -1,6 +1,8 @@
 import type { Handler, HandlerEvent } from "@netlify/functions";
 import connection from "@netlify/planetscale";
 
+const dbName : string = "'juqbox'";
+
 // Function to create a table
 async function createTable(body: string) {
     const { schema } = JSON.parse(body);
@@ -12,7 +14,7 @@ async function createTable(body: string) {
 async function addRow(body: string) {
     const { tableName, values } = JSON.parse(body);
     const placeholders = values.map(() => '?').join(', ');
-    await connection.execute(`INSERT INTO ${tableName} VALUES (${placeholders})`, values);
+    await connection.execute(`INSERT INTO ${dbName}.${tableName} VALUES (${placeholders})`, values);
     return "Row added successfully";
 }
 
@@ -23,9 +25,21 @@ async function removeRow(body: string) {
     return "Row removed successfully";
 }
 
-// Function to get all rows
+// Function to get all rows from a table
 async function getAllRows(tableName: string) {
-    const [rows] = await connection.execute(`SELECT * FROM ${tableName}`);
+    const [rows] = await connection.execute(`SELECT * FROM ${dbName}.${tableName}`);
+    return JSON.stringify(rows);
+}
+
+// Function to get all rooms
+async function getAllRooms() {
+    const [rows] = await connection.execute(`SELECT * FROM ${dbName}.rooms`);
+    return JSON.stringify(rows);
+}
+
+// Function to get all users
+async function getAllUsers() {
+    const [rows] = await connection.execute(`SELECT * FROM ${dbName}.users`);
     return JSON.stringify(rows);
 }
 
@@ -54,6 +68,10 @@ export const handler: Handler = async (event: HandlerEvent) => {
             return { statusCode: 201, body: await addRow(body) };
         } else if (httpMethod === "DELETE" && path.includes("/removeRow")) {
             return { statusCode: 200, body: await removeRow(body) };
+        } else if (httpMethod === "GET" && path.includes("/getAllRooms")) {
+            return { statusCode: 200, body: await getAllRooms() };
+        } else if (httpMethod === "GET" && path.includes("/getAllUsers")) {
+            return { statusCode: 200, body: await getAllUsers() };
         } else if (httpMethod === "GET" && path.includes("/getAllRows")) {
             const tableName = path.split("/").pop();
             return { statusCode: 200, body: await getAllRows(tableName) };
