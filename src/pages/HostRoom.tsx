@@ -33,7 +33,7 @@ function HostRoom() {
             tableName: "rooms",
             values: room
         })
-        fetch('/.netlify/functions/database/addRow', {
+        fetch('/.netlify/functions/rooms/addRow', {
             method: 'POST',
             body
         })
@@ -52,7 +52,7 @@ function HostRoom() {
         console.log("Checking room code...");
 
         try {
-            const response = await fetch(`/.netlify/functions/database/checkRoomCode/${code}`, { method: 'GET' })
+            const response = await fetch(`/.netlify/functions/rooms/checkRoomCode/${code}`, { method: 'GET' })
             const result = await response.json();
 
             if (result.rows.length > 0) {
