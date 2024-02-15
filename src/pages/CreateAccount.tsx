@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import { User } from "../../netlify/functions/database";
+import { User } from "../../netlify/functions/users";
 import { useNavigate } from "react-router-dom";
 
 function CreateAccount() {

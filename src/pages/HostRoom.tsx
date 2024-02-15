@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import { Room } from "../../netlify/functions/database";
+import { Room } from "../../netlify/functions/rooms";
 import { useNavigate } from "react-router-dom";
 
 function HostRoom() {
