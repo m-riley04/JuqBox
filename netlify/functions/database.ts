@@ -35,6 +35,12 @@ async function createTable(body: string | null) {
     return "Table created successfully";
 }
 
+// Function to get count of all rows
+async function getRowCount(tableName:string) {
+    const count = await connection.execute(`SELECT COUNT(*) FROM ${tableName}`);
+    return JSON.stringify(count);
+}
+
 // Function to add a row
 async function addRow(body: string | null) {
     const { tableName, values } = JSON.parse(body);
