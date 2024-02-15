@@ -75,6 +75,11 @@ async function getAllUsers() {
     return JSON.stringify(rows);
 }
 
+// Function to get count of all rows
+async function getUserCount() {
+    const count = await connection.execute(`SELECT COUNT(*) FROM users`);
+    return JSON.stringify(count);
+}
 // Function to get a row by ID
 async function getRowById(tableName: string | undefined, id: string | undefined) {
     const row = await connection.execute(`SELECT * FROM ${tableName} WHERE id = ?`, [id]);
