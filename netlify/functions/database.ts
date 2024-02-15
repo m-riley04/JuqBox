@@ -59,19 +59,19 @@ async function removeRow(body: string | null) {
 
 // Function to get all rows from a table
 async function getAllRows(tableName: string | undefined) {
-    const rows = await connection.execute(`SELECT * FROM ${dbName}.${tableName}`);
+    const rows = await connection.execute(`SELECT * FROM ${tableName}`);
     return JSON.stringify(rows);
 }
 
 // Function to get all rooms
 async function getAllRooms() {
-    const rows = await connection.execute(`SELECT * FROM ${dbName}.rooms`);
+    const rows = await connection.execute(`SELECT * FROM rooms`);
     return JSON.stringify(rows);
 }
 
 // Function to get all users
 async function getAllUsers() {
-    const rows = await connection.execute(`SELECT * FROM ${dbName}.users`);
+    const rows = await connection.execute(`SELECT * FROM users`);
     return JSON.stringify(rows);
 }
 
