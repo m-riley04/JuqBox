@@ -93,6 +93,12 @@ async function checkUserEmail(email: string) {
     return JSON.stringify(count);
 }
 
+// Function to check a room's code
+async function checkRoomCode(code: string) {
+    const count = await connection.execute(`SELECT code FROM rooms WHERE code='${code}'`);
+    return JSON.stringify(count);
+}
+
 // Function to get a row by ID
 async function getRowById(tableName: string | undefined, id: string | undefined) {
     const row = await connection.execute(`SELECT * FROM ${tableName} WHERE id = ?`, [id]);
