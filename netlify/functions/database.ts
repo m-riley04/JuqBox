@@ -124,18 +124,21 @@ export const handler: Handler = async (event: HandlerEvent) => {
             return { statusCode: 201, body: await addRow(body) };
         } else if (httpMethod === "DELETE" && path.includes("/removeRow")) {
             return { statusCode: 200, body: await removeRow(body) };
+        } else if (httpMethod === "GET" && path.includes("/getUserCount")) {
+            return { statusCode: 200, body: await getUserCount() };
+        } else if (httpMethod === "GET" && path.includes("/checkUserUsername")) {
+            const [, , , , , username] = path.split("/");
+            return { statusCode: 200, body: await checkUserUsername(username) };
+        } else if (httpMethod === "GET" && path.includes("/checkUserEmail")) {
+            const [, , , , , email] = path.split("/");
+            return { statusCode: 200, body: await checkUserEmail(email) };
+        } else if (httpMethod === "GET" && path.includes("/checkRoomCode")) {
+            const [, , , , , code] = path.split("/");
+            return { statusCode: 200, body: await checkRoomCode(code) };
         } else if (httpMethod === "GET" && path.includes("/getAllRooms")) {
             return { statusCode: 200, body: await getAllRooms() };
         } else if (httpMethod === "GET" && path.includes("/getAllUsers")) {
             return { statusCode: 200, body: await getAllUsers() };
-        } else if (httpMethod === "GET" && path.includes("/getAllRows")) {
-            const tableName = path.split("/").pop();
-            return { statusCode: 200, body: await getAllRows(tableName) };
-        } else if (httpMethod === "GET" && path.includes("/getRowById")) {
-            const [, tableName, id] = path.split("/");
-            return { statusCode: 200, body: await getRowById(tableName, id) };
-        } else if (httpMethod === "PUT" && path.includes("/updateRow")) {
-            return { statusCode: 200, body: await updateRow(body) };
         }
     } catch (error) {
         return { statusCode: 500, body: JSON.stringify({ error: error.message }) };
