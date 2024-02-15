@@ -79,12 +79,13 @@ function Admin() {
     }
 
     useEffect(() => {
-        setPassword(prompt("Please enter the admin password", ""));
+        const input = prompt("Please enter the admin password", "");
+        setPassword(input);
 
-        if (password === import.meta.env.VITE_ADMIN_PASSWORD) {
+        if (input === import.meta.env.VITE_ADMIN_PASSWORD) {
             setPasswordAccepted(true);
         }
-    }, [password]);
+    }, []);
     
     
     if (passwordAccepted) return (
