@@ -80,6 +80,12 @@ async function getUserCount() {
     const count = await connection.execute(`SELECT COUNT(*) FROM users`);
     return JSON.stringify(count);
 }
+
+// Function to check a username
+async function checkUserUsername(username: string) {
+    const count = await connection.execute(`SELECT username FROM users WHERE username='${username}'`);
+    return JSON.stringify(count);
+}
 // Function to get a row by ID
 async function getRowById(tableName: string | undefined, id: string | undefined) {
     const row = await connection.execute(`SELECT * FROM ${tableName} WHERE id = ?`, [id]);
