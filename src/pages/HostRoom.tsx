@@ -1,28 +1,107 @@
+import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
+import { Room } from "../../netlify/functions/database";
+import { useNavigate } from "react-router-dom";
 
 function HostRoom() {
-    function handleNameChange() {
+    const navigate = useNavigate();
 
+    const [roomName, setRoomName] = useState("My Room");
+    const [roomMaxGuests, setRoomMaxGuests] = useState(50);
+    const [roomMaxCoexistentQueues, setRoomMaxCoexistentQueues] = useState(5);
+    const [roomQueueCost, setRoomQueueCost] = useState(0);
+
+    function handleNameChange(event) {
+        setRoomName(event.target.value);
     }
 
-    function handleCodeChange() {
-
+    function handleMaxGuestsChange(event) {
+        setRoomMaxGuests(event.target.value);
     }
 
-    function handleMaxGuestsChange() {
-
+    function handleMaxConcurrentQueuesChange(event) {
+        setRoomMaxCoexistentQueues(event.target.value);
     }
 
-    function handleMaxConcurrentQueuesChange() {
-
+    function handleCostPerQueueChange(event) {
+        setRoomQueueCost(event.target.value);
     }
 
-    function handleCostPerQueueChange() {
+    function createRoom(room: Room) {
 
+        const body = JSON.stringify({
+            tableName: "rooms",
+            values: room
+        })
+        fetch('/.netlify/functions/database/addRow', {
+            method: 'POST',
+            body
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Network response was not okay");
+            }
+            console.log("Room created successfully!");
+        })
+        .catch(error => {
+            console.error(error);
+        })
     }
 
-    function handleClickedStartHosting() {
+    async function isCodeTaken(code:number) {
+        console.log("Checking room code...");
 
+        try {
+            const response = await fetch(`/.netlify/functions/database/checkRoomCode/${code}`, { method: 'GET' })
+            const result = await response.json();
+
+            if (result.rows.length > 0) {
+                return true;
+            }
+            return false;
+
+        } catch (error) {
+            console.error(`Unable to check code: ${error}`);
+            return true;
+        }
+    }
+
+    async function generateCode(timeout: number=10) {
+        const min = 1_000_000;
+        const max = 9_999_999;
+        for (let i = 0; i < timeout; i++) {
+            // Check if the room code is free
+            const code = Math.floor((Math.random() * (max - min) + min));
+            console.log(`Checking code ${code}...`);
+            if (!await isCodeTaken(code)) {
+                return code.toString()
+            }
+        }
+        return "-1";
+    }
+
+    async function handleCreateRoom() {
+        // Generate a room code/id
+        const code = await generateCode();
+
+        // Check if the code was generated has exceeded
+        if (code === "-1") {
+            console.warn("Unable to find a room code.")
+        }
+
+        // Create the room
+        createRoom({
+            id: code,
+            code: code,
+            name: roomName,
+            max_guests: roomMaxGuests,
+            guest_ids: [],
+            max_queues_per_guest: roomMaxCoexistentQueues,
+            queue_cost: roomQueueCost
+        })
+
+        // Redirect to another page
+        navigate("../")
     }
 
     return (
@@ -38,15 +117,6 @@ function HostRoom() {
                     />
                 </Form.Group>
 
-                <Form.Group controlId="roomCode">
-                    <Form.Label>Room Code</Form.Label>
-                    <Form.Control 
-                        type="password"
-                        //defaultValue="room-code-123"
-                        onChange={handleCodeChange}
-                        placeholder="room-code-123"
-                    />
-                </Form.Group>
                 <Form.Group controlId="maxGuests">
                     <Form.Label>Maximum Guests</Form.Label>
                     <Form.Range min={1} max={999} step={1} defaultValue={100} onChange={handleMaxGuestsChange}></Form.Range>
@@ -63,7 +133,7 @@ function HostRoom() {
                 </Form.Group>
             </Form>
 
-            <Button onClick={handleClickedStartHosting}>Start hosting</Button>
+            <Button onClick={handleCreateRoom}>Create Room</Button>
         </>
     );
 }
