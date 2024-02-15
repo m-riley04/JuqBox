@@ -2,7 +2,7 @@ import type { Handler, HandlerEvent } from "@netlify/functions";
 import connection from "@netlify/planetscale";
 
 // Function to create a table
-async function createTable(body: string | null) {
+async function createTable(body: string) {
     const { schema } = JSON.parse(body);
     await connection.execute(schema);
     return "Table created successfully";
@@ -15,7 +15,7 @@ async function getRowCount(tableName:string) {
 }
 
 // Function to add a row
-async function addRow(body: string | null) {
+async function addRow(body: string) {
     const { tableName, values } = JSON.parse(body);
     const headers = Object.keys(values).map(s => `${s}`).join(', ');
     const vals = Object.values(values).map(s => `'${s}'`).join(', ');
@@ -24,26 +24,26 @@ async function addRow(body: string | null) {
 }
 
 // Function to remove a row
-async function removeRow(body: string | null) {
+async function removeRow(body: string) {
     const { tableName, id } = JSON.parse(body);
     await connection.execute(`DELETE FROM ${tableName} WHERE id = ?`, [id]);
     return "Row removed successfully";
 }
 
 // Function to get all rows from a table
-async function getAllRows(tableName: string | undefined) {
+async function getAllRows(tableName: string) {
     const rows = await connection.execute(`SELECT * FROM ${tableName}`);
     return JSON.stringify(rows);
 }
 
 // Function to get a row by ID
-async function getRowById(tableName: string | undefined, id: string | undefined) {
+async function getRowById(tableName: string, id: string) {
     const row = await connection.execute(`SELECT * FROM ${tableName} WHERE id = ?`, [id]);
     return JSON.stringify(row);
 }
 
 // Function to update a row
-async function updateRow(body: string | null) {
+async function updateRow(body: string) {
     const { tableName, id, values } = JSON.parse(body);
     const setClause = Object.keys(values).map(key => `${key} = ?`).join(', ');
     const queryParams = [...Object.values(values), id];
