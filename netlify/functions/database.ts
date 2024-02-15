@@ -63,42 +63,6 @@ async function getAllRows(tableName: string | undefined) {
     return JSON.stringify(rows);
 }
 
-// Function to get all rooms
-async function getAllRooms() {
-    const rows = await connection.execute(`SELECT * FROM rooms`);
-    return JSON.stringify(rows);
-}
-
-// Function to get all users
-async function getAllUsers() {
-    const rows = await connection.execute(`SELECT * FROM users`);
-    return JSON.stringify(rows);
-}
-
-// Function to get count of all rows
-async function getUserCount() {
-    const count = await connection.execute(`SELECT COUNT(*) FROM users`);
-    return JSON.stringify(count);
-}
-
-// Function to check a username
-async function checkUserUsername(username: string) {
-    const count = await connection.execute(`SELECT username FROM users WHERE username='${username}'`);
-    return JSON.stringify(count);
-}
-
-// Function to check an email address
-async function checkUserEmail(email: string) {
-    const count = await connection.execute(`SELECT email FROM users WHERE email='${email}'`);
-    return JSON.stringify(count);
-}
-
-// Function to check a room's code
-async function checkRoomCode(code: string) {
-    const count = await connection.execute(`SELECT code FROM rooms WHERE code='${code}'`);
-    return JSON.stringify(count);
-}
-
 // Function to get a row by ID
 async function getRowById(tableName: string | undefined, id: string | undefined) {
     const row = await connection.execute(`SELECT * FROM ${tableName} WHERE id = ?`, [id]);
@@ -120,26 +84,28 @@ export const handler: Handler = async (event: HandlerEvent) => {
     try {
         if (httpMethod === "POST" && path.includes("/createTable")) {
             return { statusCode: 201, body: await createTable(body) };
-        } else if (httpMethod === "POST" && path.includes("/addRow")) {
+        } 
+        else if (httpMethod === "POST" && path.includes("/addRow")) {
             return { statusCode: 201, body: await addRow(body) };
-        } else if (httpMethod === "DELETE" && path.includes("/removeRow")) {
+        } 
+        else if (httpMethod === "PUT" && path.includes("/updateRow")) {
+            return { statusCode: 201, body: await updateRow(body) };
+        } 
+        else if (httpMethod === "DELETE" && path.includes("/removeRow")) {
             return { statusCode: 200, body: await removeRow(body) };
-        } else if (httpMethod === "GET" && path.includes("/getUserCount")) {
-            return { statusCode: 200, body: await getUserCount() };
-        } else if (httpMethod === "GET" && path.includes("/checkUserUsername")) {
-            const [, , , , , username] = path.split("/");
-            return { statusCode: 200, body: await checkUserUsername(username) };
-        } else if (httpMethod === "GET" && path.includes("/checkUserEmail")) {
-            const [, , , , , email] = path.split("/");
-            return { statusCode: 200, body: await checkUserEmail(email) };
-        } else if (httpMethod === "GET" && path.includes("/checkRoomCode")) {
-            const [, , , , , code] = path.split("/");
-            return { statusCode: 200, body: await checkRoomCode(code) };
-        } else if (httpMethod === "GET" && path.includes("/getAllRooms")) {
-            return { statusCode: 200, body: await getAllRooms() };
-        } else if (httpMethod === "GET" && path.includes("/getAllUsers")) {
-            return { statusCode: 200, body: await getAllUsers() };
+        } 
+        else if (httpMethod === "GET" && path.includes("/getAllRows")) {
+            const [, , , , , tableName] = path.split("/");
+            return { statusCode: 200, body: await getAllRows(tableName) };
+        } 
+        else if (httpMethod === "GET" && path.includes("/getRowById")) {
+            const [, , , , , tableName, id] = path.split("/");
+            return { statusCode: 200, body: await getRowById(tableName, id) };
         }
+        else if (httpMethod === "GET" && path.includes("/getRowCount")) {
+            const [, , , , , tableName] = path.split("/");
+            return { statusCode: 200, body: await getRowCount(tableName) };
+        } 
     } catch (error) {
         return { statusCode: 500, body: JSON.stringify({ error: error.message }) };
     }
