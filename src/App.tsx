@@ -10,6 +10,7 @@ import NavigationBar from "./components/NavigationBar/NavigationBar";
 import "./stylesheet.scss";
 import Admin from "./pages/Admin";
 import SpotifyResponse from "./pages/SpotifyResponse";
+import RoomNotFound from "./pages/RoomNotFound";
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
           <Route path="create-account" element={<CreateAccount/>}/>
           <Route path="spotify-response" element={<SpotifyResponse/>}/>
           <Route path="admin" element={<Admin/>}/>
+          <Route path="join/*" element={<RoomNotFound/>}/>
           <Route path="*" element={<NotFound/>}/>
         </Routes>
       </BrowserRouter>
