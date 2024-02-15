@@ -23,7 +23,7 @@ async function getRoomCount() {
 }
 
 // Function to add a room
-async function addRoom(body: string | null) {
+async function addRoom(body: string) {
     const { values } = JSON.parse(body);
     const headers = Object.keys(values).map(s => `${s}`).join(', ');
     const vals = Object.values(values).map(s => `'${s}'`).join(', ');
@@ -32,7 +32,7 @@ async function addRoom(body: string | null) {
 }
 
 // Function to remove a room
-async function removeRoom(body: string | null) {
+async function removeRoom(body: string) {
     const { id } = JSON.parse(body);
     await connection.execute(`DELETE FROM rooms WHERE id='${id}'`);
     return "Room removed successfully";

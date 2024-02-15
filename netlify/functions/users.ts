@@ -20,7 +20,7 @@ async function getUserCount() {
 }
 
 // Add a user
-async function addUser(body: string | null) {
+async function addUser(body: string) {
     const { values } = JSON.parse(body);
     const headers = Object.keys(values).map(s => `${s}`).join(', ');
     const vals = Object.values(values).map(s => `'${s}'`).join(', ');
@@ -29,7 +29,7 @@ async function addUser(body: string | null) {
 }
 
 // Remove a user
-async function removeUser(body: string | null) {
+async function removeUser(body: string) {
     const { id } = JSON.parse(body);
     await connection.execute(`DELETE FROM users WHERE id = '${id}'`, [id]);
     return "User removed successfully";
