@@ -13,6 +13,7 @@ function CreateAccount() {
 
     function handleChangedUsername(event) {
         setUsername(event.target.value);
+        console.log(username);
     }
 
     function handleChangedEmail(event) {
