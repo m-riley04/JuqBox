@@ -13,7 +13,6 @@ function CreateAccount() {
 
     function handleChangedUsername(event) {
         setUsername(event.target.value);
-        console.log(username);
     }
 
     function handleChangedEmail(event) {
@@ -135,8 +134,8 @@ function CreateAccount() {
             password_hash: password
         });
 
-        // Redirect to
-        navigate()
+        // Redirect to home page
+        navigate("../")
     }
 
     return (
