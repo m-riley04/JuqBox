@@ -8,6 +8,7 @@ function Account() {
 
     if (isAuthenticated) return (
         <>
+            <Profile></Profile>
             <LogoutButton></LogoutButton>
         </>
     );
