@@ -32,7 +32,7 @@ function HostRoom() {
         const body = JSON.stringify({
             values: room
         })
-        fetch('/.netlify/functions/rooms/addRow', {
+        fetch('/.netlify/functions/rooms/addRoom', {
             method: 'POST',
             body
         })
