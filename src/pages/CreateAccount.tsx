@@ -35,10 +35,9 @@ function CreateAccount() {
 
     function addUser(user: User) {
         const body = JSON.stringify({
-            tableName: "users",
             values: user
         })
-        fetch('/.netlify/functions/database/addRow', {
+        fetch('/.netlify/functions/users/addUser', {
             method: 'POST',
             body
         })
@@ -57,7 +56,7 @@ function CreateAccount() {
         console.log("Checking username...");
 
         try {
-            const response = await fetch(`/.netlify/functions/database/checkUserUsername/${username}`, { method: 'GET' })
+            const response = await fetch(`/.netlify/functions/users/checkUserUsername/${username}`, { method: 'GET' })
             const result = await response.json();
 
             if (result.rows.length > 0) {
@@ -75,7 +74,7 @@ function CreateAccount() {
         console.log("Checking email...");
 
         try {
-            const response = await fetch(`/.netlify/functions/database/checkUserEmail/${email}`, { method: 'GET' })
+            const response = await fetch(`/.netlify/functions/users/checkUserEmail/${email}`, { method: 'GET' })
             const result = await response.json();
 
             if (result.rows.length > 0) {
@@ -93,7 +92,7 @@ function CreateAccount() {
         console.log("Getting new user ID...");
         
         try {
-            const response = (await fetch(`/.netlify/functions/database/getUserCount`, { method: "GET" } ));
+            const response = (await fetch(`/.netlify/functions/users/getUserCount`, { method: "GET" } ));
             const result = await response.json();
 
             return (Number(result.rows[0]["count(*)"]) + 1);
@@ -160,9 +159,9 @@ function CreateAccount() {
                     <Form.Label>Password</Form.Label>
                     <Form.Control type="password" onChange={handleChangedPassword}></Form.Control>
                 </Form.Group>
-
+                <Button onClick={handleAddUser}>Create Account</Button>
             </Form>
-            <Button onClick={handleAddUser}>Create Account</Button>
+            
         </>
     );
 }
