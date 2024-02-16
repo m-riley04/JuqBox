@@ -1,21 +1,43 @@
-import { Button } from "react-bootstrap";
-import { useNavigate } from "react-router";
+import LogoutButton from "../components/Auth0/LogoutButton";
+import { useAuth0 } from "@auth0/auth0-react";
+import Profile from "../components/Auth0/Profile";
+import LoginButton from "../components/Auth0/LoginButton";
 
 function Account() {
-    const navigate = useNavigate();
+    const { isAuthenticated, error, isLoading } = useAuth0();
 
-    function handleLogin() {
-        navigate("../login");
-    }
+    if (isLoading) return (
+        <>
+            <p>Loading...</p>
+        </>
+    );
 
-    function handleCreateAccount() {
-        navigate("../create-account");
-    }
+    if (error) return (
+        <>
+            <h1>Error</h1>
+            <p>There was an error logging you in: {error.message}</p>
+            <LoginButton></LoginButton>
+        </>
+    );
+
+    if (!isAuthenticated) return (
+        <>
+            <LoginButton></LoginButton>
+        </>
+    );
+
+    
+    
+    if (isAuthenticated) return (
+        <>
+            <Profile></Profile>
+            <LogoutButton></LogoutButton>
+        </>
+    );
 
     return (
         <>
-            <Button onClick={handleLogin}>Login</Button>
-            <Button onClick={handleCreateAccount}>Create Account</Button>
+            <p>Waiting for login...</p>
         </>
     );
 }
