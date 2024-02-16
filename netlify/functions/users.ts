@@ -13,12 +13,6 @@ export interface User {
     email: string
 }
 
-// Get count of all users
-async function getUserCount() {
-    const count = await connection.execute(`SELECT COUNT(*) FROM users`);
-    return JSON.stringify(count);
-}
-
 // Add a user
 async function addUser(body: string) {
     const { values } = JSON.parse(body);
@@ -33,6 +27,12 @@ async function removeUser(body: string) {
     const { id } = JSON.parse(body);
     await connection.execute(`DELETE FROM users WHERE id = '${id}'`, [id]);
     return "User removed successfully";
+}
+
+// Get count of all users
+async function getUserCount() {
+    const count = await connection.execute(`SELECT COUNT(*) FROM users`);
+    return JSON.stringify(count);
 }
 
 // Get all users
