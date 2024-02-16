@@ -1,4 +1,3 @@
-import LoginButton from "../components/Auth0/LoginButton";
 import LogoutButton from "../components/Auth0/LogoutButton";
 import { useAuth0 } from "@auth0/auth0-react";
 
@@ -14,7 +13,6 @@ function Account() {
 
     return (
         <>
-            <LoginButton></LoginButton>
         </>
     );
 }
