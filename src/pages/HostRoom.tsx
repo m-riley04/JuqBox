@@ -30,7 +30,6 @@ function HostRoom() {
     function createRoom(room: Room) {
 
         const body = JSON.stringify({
-            tableName: "rooms",
             values: room
         })
         fetch('/.netlify/functions/rooms/addRow', {
@@ -131,9 +130,10 @@ function HostRoom() {
                     <Form.Label>Cost Per Queue</Form.Label>
                     <Form.Range min={0} max={5} step={0.25} defaultValue={0} onChange={handleCostPerQueueChange}></Form.Range>
                 </Form.Group>
+                <Button onClick={handleCreateRoom}>Create Room</Button>
             </Form>
 
-            <Button onClick={handleCreateRoom}>Create Room</Button>
+            
         </>
     );
 }
