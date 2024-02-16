@@ -8,16 +8,15 @@ function Admin() {
 
     function handleAddRoom() {
         const body = JSON.stringify({
-            tableName: "rooms",
             values: {
-                name: "testroom",
+                name: "test room",
                 code: 12345,
                 guest_ids: [],
                 max_queues_per_guest: 5,
                 queue_cost: 0
             }
         })
-        fetch('/.netlify/functions/database/addRow', {
+        fetch('/.netlify/functions/rooms/addRoom', {
             method: 'POST',
             body
         })
@@ -34,7 +33,6 @@ function Admin() {
 
     function handleAddUser() {
         const body = JSON.stringify({
-            tableName: "users",
             values: {
                 id: 0,
                 username: "test",
@@ -42,7 +40,7 @@ function Admin() {
                 email: "test@example.com"
             }
         })
-        fetch('/.netlify/functions/database/addRow', {
+        fetch('/.netlify/functions/users/addUser', {
             method: 'POST',
             body
         })
@@ -58,7 +56,7 @@ function Admin() {
     }
 
     function handleGetRooms() {
-        fetch('/.netlify/functions/database/getAllRooms', { method: "GET" })
+        fetch('/.netlify/functions/rooms/getAllRooms', { method: "GET" })
         .then(response => {
             if (!response.ok) {
                 throw new Error("Network response was not okay");
