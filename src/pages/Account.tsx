@@ -1,21 +1,20 @@
-import { Button } from "react-bootstrap";
-import { useNavigate } from "react-router";
+import LoginButton from "../components/Auth0/LoginButton";
+import LogoutButton from "../components/Auth0/LogoutButton";
+import { useAuth0 } from "@auth0/auth0-react";
+
 
 function Account() {
-    const navigate = useNavigate();
+    const { isAuthenticated } = useAuth0();
 
-    function handleLogin() {
-        navigate("../login");
-    }
-
-    function handleCreateAccount() {
-        navigate("../create-account");
-    }
+    if (isAuthenticated) return (
+        <>
+            <LogoutButton></LogoutButton>
+        </>
+    );
 
     return (
         <>
-            <Button onClick={handleLogin}>Login</Button>
-            <Button onClick={handleCreateAccount}>Create Account</Button>
+            <LoginButton></LoginButton>
         </>
     );
 }
