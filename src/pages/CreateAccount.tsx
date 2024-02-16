@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { User } from "../../netlify/functions/users";
 import { useNavigate } from "react-router-dom";
@@ -11,25 +11,25 @@ function CreateAccount() {
     const [confirmedEmail, setConfirmedEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    function handleChangedUsername(event) {
+    function handleChangedUsername(event: ChangeEvent<HTMLInputElement>) {
         setUsername(event.target.value);
     }
 
-    function handleChangedEmail(event) {
+    function handleChangedEmail(event: ChangeEvent<HTMLInputElement>) {
         setEmail(event.target.value);
         if (event.target.value == confirmedEmail) {
             console.log("Emails now match")
         }
     }
 
-    function handleChangedConfirmedEmail(event) {
+    function handleChangedConfirmedEmail(event: ChangeEvent<HTMLInputElement>) {
         setConfirmedEmail(event.target.value);
         if (event.target.value == email) {
             console.log("Emails now match")
         }
     }
 
-    function handleChangedPassword(event) {
+    function handleChangedPassword(event: ChangeEvent<HTMLInputElement>) {
         setPassword(event.target.value);
     }
 

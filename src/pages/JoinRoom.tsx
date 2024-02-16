@@ -9,7 +9,7 @@ function JoinRoom() {
         console.log("Opening camera for QR code...")
     }
 
-    function handleJoinRoom(event?) {
+    async function handleJoinRoom(event: FormEvent) {
         // Stop page refreshing
         event?.preventDefault();
 

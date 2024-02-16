@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { Room } from "../../netlify/functions/rooms";
 import { useNavigate } from "react-router-dom";
@@ -11,20 +11,20 @@ function HostRoom() {
     const [roomMaxCoexistentQueues, setRoomMaxCoexistentQueues] = useState(5);
     const [roomQueueCost, setRoomQueueCost] = useState(0);
 
-    function handleNameChange(event) {
+    function handleNameChange(event: ChangeEvent<HTMLInputElement>) {
         setRoomName(event.target.value);
     }
 
-    function handleMaxGuestsChange(event) {
-        setRoomMaxGuests(event.target.value);
+    function handleMaxGuestsChange(event: ChangeEvent<HTMLInputElement>) {
+        setRoomMaxGuests(Number(event.target.value));
     }
 
-    function handleMaxConcurrentQueuesChange(event) {
-        setRoomMaxCoexistentQueues(event.target.value);
+    function handleMaxConcurrentQueuesChange(event: ChangeEvent<HTMLInputElement>) {
+        setRoomMaxCoexistentQueues(Number(event.target.value));
     }
 
-    function handleCostPerQueueChange(event) {
-        setRoomQueueCost(event.target.value);
+    function handleCostPerQueueChange(event: ChangeEvent<HTMLInputElement>) {
+        setRoomQueueCost(Number(event.target.value));
     }
 
     function createRoom(room: Room) {
