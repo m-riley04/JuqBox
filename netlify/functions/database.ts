@@ -56,15 +56,19 @@ export const handler: Handler = async (event: HandlerEvent) => {
 
     try {
         if (httpMethod === "POST" && path.includes("/createTable")) {
+            if (!body) throw new Error("'body' is required");
             return { statusCode: 201, body: await createTable(body) };
         } 
         else if (httpMethod === "POST" && path.includes("/addRow")) {
+            if (!body) throw new Error("'body' is required");
             return { statusCode: 201, body: await addRow(body) };
         } 
         else if (httpMethod === "PUT" && path.includes("/updateRow")) {
+            if (!body) throw new Error("'body' is required");
             return { statusCode: 201, body: await updateRow(body) };
         } 
         else if (httpMethod === "DELETE" && path.includes("/removeRow")) {
+            if (!body) throw new Error("'body' is required");
             return { statusCode: 200, body: await removeRow(body) };
         } 
         else if (httpMethod === "GET" && path.includes("/getAllRows")) {
@@ -83,5 +87,5 @@ export const handler: Handler = async (event: HandlerEvent) => {
         return { statusCode: 500, body: JSON.stringify({ error: error.message }) };
     }
 
-    return { statusCode: 400, body: "Unsupported operation" };
+    return { statusCode: 400, body: "Unsupported database operation" };
 };

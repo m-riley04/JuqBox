@@ -55,9 +55,11 @@ export const handler: Handler = async (event: HandlerEvent) => {
 
     try {
         if (httpMethod === "POST" && path.includes("/addRoom")) {
+            if (!body) throw new Error("'body' is required");
             return { statusCode: 201, body: await addRoom(body) };
         } 
         else if (httpMethod === "DELETE" && path.includes("/removeRoom")) {
+            if (!body) throw new Error("'body' is required");
             return { statusCode: 200, body: await removeRoom(body) };
         } 
         else if (httpMethod === "GET" && path.includes("/getRoomCount")) {
