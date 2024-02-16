@@ -20,6 +20,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "netlify/functions/database.ts", "netlify/functions/users.ts", "netlify/functions/rooms.ts"],
+  "include": ["src", "netlify/functions"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
