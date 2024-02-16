@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react";
 
 function Admin() {
-    const [password, setPassword] = useState<string | null>("");
     const [passwordAccepted, setPasswordAccepted] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [data, setData] = useState();
 
     function handleAddRoom() {
         const body = JSON.stringify({
@@ -64,7 +61,6 @@ function Admin() {
             return response.json();
         })
         .then(data => {
-            setData(data);
             console.log(`Rooms: ${JSON.stringify(data)}`);
         })
         .catch(error => {
@@ -73,7 +69,7 @@ function Admin() {
     }
 
     function handleGetUsers() {
-        const response = fetch('/.netlify/functions/database/getAllUsers', { method: "GET" })
+        fetch('/.netlify/functions/database/getAllUsers', { method: "GET" })
         .then(response => {
             if (!response.ok) {
                 throw new Error("Network response was not okay");
@@ -81,7 +77,6 @@ function Admin() {
             return response.json();
         })
         .then(data => {
-            setData(data);
             console.log(`Users: ${JSON.stringify(data)}`);
         })
         .catch(error => {
@@ -91,7 +86,6 @@ function Admin() {
 
     useEffect(() => {
         const input = prompt("Please enter the admin password", "");
-        setPassword(input);
         console.log(`You inputted: ${input}`);
 
         if (input === import.meta.env.VITE_ADMIN_PASSWORD) {
@@ -99,12 +93,6 @@ function Admin() {
             console.log("Password accepted!");
         }
     }, []);
-
-    if (loading) return (
-        <>
-            <p>Loading...</p>
-        </>
-    );
 
     if (passwordAccepted) return (
         <>
