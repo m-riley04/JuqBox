@@ -3,6 +3,7 @@ import { withAuth0 } from "@netlify/auth0";
 import connection from "@netlify/planetscale";
 
 export const handler: Handler = withAuth0(
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async (event: HandlerEvent, context: HandlerContext) => {
 
     const { rows: users } = await connection.execute("SELECT * FROM  users");
