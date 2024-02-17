@@ -6,6 +6,7 @@ function RoomHost() {
     const navigate = useNavigate();
     const [roomExists, setRoomExists] = useState(false);
 
+    //#region Server Handlers
     function removeRoom(roomCode:number) {
         const body = JSON.stringify({
             code: roomCode
@@ -57,7 +58,9 @@ function RoomHost() {
                 console.error(error);
             })
     }
+    //#endregion Server Handlers
 
+    //#region Component Handlers
     function handleClickCloseRoom() {
         if (confirm("Are you sure you want to close the room?")) {
             removeRoom(Number(params.code));
@@ -76,6 +79,7 @@ function RoomHost() {
     function handleClickHost() {
         navigate("../host");
     }
+    //#endregion Component Hanlders
 
     useEffect(() => {
         // Check if the room exists
