@@ -25,10 +25,12 @@ async function getRoomCount() {
 // Function to add a room
 async function addRoom(body: string) {
     const { values } = JSON.parse(body);
-    const headers = Object.keys(values).map(s => `${s}`).join(', ');
-    const vals = Object.values(values).map(s => `'${s}'`).join(', ');
-    const query = "INSERT INTO rooms ( ? ) VALUES ( ? );";
-    await connection.execute(query, [headers, vals]);
+    const VALID_HEADERS = ["id", "code", "name", "owner", "max_guests", "max_queues_per_guest", "queue_cost"];
+    const placeholders = VALID_HEADERS.filter(key => Object.keys(values).includes(key)).map(() => '?').join(', ');
+    const headers = VALID_HEADERS.filter(key => Object.keys(values).includes(key));
+    const vals = headers.map(header => values[header]);
+    const query = `INSERT INTO rooms (${headers.join(', ')}) VALUES ( ${placeholders} );`;
+    await connection.execute(query, vals);
     return "Room added successfully";
 }
 

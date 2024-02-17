@@ -16,9 +16,11 @@ export interface User {
 // Add a user
 async function addUser(body: string) {
     const { values } = JSON.parse(body);
-    const headers = Object.keys(values).map(s => `${s}`).join(', ');
-    const vals = Object.values(values).map(s => `'${s}'`).join(', ');
-    const query = "INSERT INTO users (?) VALUES (?);"
+    const VALID_HEADERS = ["id", "username", "password_hash", "email"];
+    const placeholders = VALID_HEADERS.filter(key => Object.keys(values).includes(key)).map(() => '?').join(', ');
+    const headers = VALID_HEADERS.filter(key => Object.keys(values).includes(key));
+    const vals = headers.map(header => values[header]);
+    const query = `INSERT INTO users (${headers.join(', ')}) VALUES ( ${placeholders} );`;
     await connection.execute(query, [headers, vals]);
     return "User added successfully";
 }
