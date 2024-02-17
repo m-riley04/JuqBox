@@ -1,12 +1,14 @@
-import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 function RoomHost() {
-    let params = useParams();
+    const params = useParams();
+    const navigate = useNavigate();
+    const [roomExists, setRoomExists] = useState(false);
 
     function removeRoom(roomCode:number) {
         const body = JSON.stringify({
-            values: roomCode
+            code: roomCode
         })
         fetch('/.netlify/functions/rooms/removeRoom', {
             method: 'DELETE',
@@ -23,12 +25,62 @@ function RoomHost() {
         })
     }
 
+    async function doesRoomExist(code:number) {
+        console.log("Checking room code...");
+
+        try {
+            const response = await fetch(`/.netlify/functions/rooms/checkRoomCode/${code}`, { method: 'GET' })
+            const result = await response.json();
+
+            if (result.rows.length > 0) {
+                return true;
+            }
+            return false;
+
+        } catch (error) {
+            console.error(`Unable to check code: ${error}`);
+            return true;
+        }
+    }
+
     function handleRoomClose() {
         // Delete the room from the database
-        removeRoom(params.code);
+        removeRoom(Number(params.code));
+    }
+
+    function handleCheckRoom() {
+        doesRoomExist(Number(params.code))
+            .then(result => {
+                setRoomExists(result);
+            })
+            .catch(error => {
+                console.error(error);
+            })
+    }
+
+    function handleClickCloseRoom() {
+        if (confirm("Are you sure you want to close the room?")) {
+            removeRoom(Number(params.code));
+            navigate("../");
+        }
+    }
+
+    function handleClickSettings() {
+
+    }
+
+    function handleClickManageUsers() {
+
+    }
+
+    function handleClickHost() {
+        navigate("../host");
     }
 
     useEffect(() => {
+        // Check if the room exists
+        handleCheckRoom();
+
         // Check if the page is closing
         window.addEventListener("beforeunload", (ev) => {
             ev.preventDefault();
@@ -38,12 +90,22 @@ function RoomHost() {
         });
     }, [])
     
-
-
-    return (
+    // Check if the room exists
+    if (roomExists) return (
         <>
             <h1>Code: {params.code}</h1>
             <p>Join the queue now at <a href="juqbox.space/join" target="_blank" rel="noreferrer">juqbox.space/join</a></p>
+            <button onClick={handleClickCloseRoom}>Close Room</button>
+            <button onClick={handleClickSettings}>Settings</button>
+            <button onClick={handleClickManageUsers}>ManageUsers</button>
+        </>
+    );
+
+    // If the room doesn't exist
+    return (
+        <>
+            <h1>This room does not exist.</h1>
+            <button onClick={handleClickHost}>Host another room</button>
         </>
     );
 }
