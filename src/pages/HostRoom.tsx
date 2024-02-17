@@ -14,6 +14,7 @@ function HostRoom() {
 
     const { isAuthenticated, user, error, isLoading } = useAuth0();
 
+    //#region Component Handlers
     function handleNameChange(event: ChangeEvent<HTMLInputElement>) {
         setRoomName(event.target.value);
     }
@@ -29,7 +30,9 @@ function HostRoom() {
     function handleCostPerQueueChange(event: ChangeEvent<HTMLInputElement>) {
         setRoomQueueCost(Number(event.target.value));
     }
+    //#endregion Component Handlers
 
+    //#region Server Handlers
     function createRoom(room: Room) {
 
         const body = JSON.stringify({
@@ -106,6 +109,7 @@ function HostRoom() {
         // Redirect to another page
         navigate(`../host/${code}`)
     }
+    //#endregion Server Handlers
 
     return (
         <>
