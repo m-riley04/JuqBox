@@ -26,7 +26,7 @@ function JoinRoom() {
         }
 
         console.log("Attempting to join room...")
-        navigate(`../rooms/${code}`)
+        navigate(`../join/${code}`)
     }
 
     async function doesRoomExist(code:number) {
