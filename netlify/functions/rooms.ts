@@ -45,19 +45,19 @@ async function getAllRooms() {
 }
 
 // Function to get a room's data by code
-async function getRoom(code: number) {
+async function getRoom(code: string) {
     const room = await connection.execute(`SELECT * FROM rooms WHERE code='${code}'`);
     return JSON.stringify(room);
 }
 
 // Function to get a room's name by code
-async function getRoomName(code: number) {
+async function getRoomName(code: string) {
     const name = await connection.execute(`SELECT name FROM rooms WHERE code='${code}'`);
     return JSON.stringify(name);
 }
 
 // Function to get a room's owner by code
-async function getRoomOwner(code: number) {
+async function getRoomOwner(code: string) {
     const name = await connection.execute(`SELECT owner FROM rooms WHERE code='${code}'`);
     return JSON.stringify(name);
 }
@@ -85,6 +85,18 @@ export const handler: Handler = async (event: HandlerEvent) => {
         } 
         else if (httpMethod === "GET" && path.includes("/getAllRooms")) {
             return { statusCode: 200, body: await getAllRooms() };
+        }
+        else if (httpMethod === "GET" && path.includes("/getRoom")) {
+            const [, , , , , code] = path.split("/");
+            return { statusCode: 200, body: await getRoom(code) };
+        }
+        else if (httpMethod === "GET" && path.includes("/getRoomName")) {
+            const [, , , , , code] = path.split("/");
+            return { statusCode: 200, body: await getRoomName(code) };
+        }
+        else if (httpMethod === "GET" && path.includes("/getRoomOwner")) {
+            const [, , , , , code] = path.split("/");
+            return { statusCode: 200, body: await getRoomOwner(code) };
         }
         else if (httpMethod === "GET" && path.includes("/checkRoomCode")) {
             const [, , , , , code] = path.split("/");
