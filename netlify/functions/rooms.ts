@@ -27,14 +27,16 @@ async function addRoom(body: string) {
     const { values } = JSON.parse(body);
     const headers = Object.keys(values).map(s => `${s}`).join(', ');
     const vals = Object.values(values).map(s => `'${s}'`).join(', ');
-    await connection.execute(`INSERT INTO rooms (${headers}) VALUES (${vals});`);
+    const query = "INSERT INTO rooms ( ? ) VALUES ( ? );";
+    await connection.execute(query, [headers, vals]);
     return "Room added successfully";
 }
 
 // Function to remove a room
 async function removeRoom(body: string) {
     const { code } = JSON.parse(body);
-    await connection.execute(`DELETE FROM rooms WHERE code='${code}'`);
+    const query = "DELETE FROM rooms WHERE code = ?"
+    await connection.execute(query, [code]);
     return "Room removed successfully";
 }
 
@@ -46,25 +48,29 @@ async function getAllRooms() {
 
 // Function to get a room's data by code
 async function getRoom(code: string) {
-    const room = await connection.execute(`SELECT * FROM rooms WHERE code='${code}'`);
+    const query = "SELECT * FROM rooms WHERE code = ?";
+    const room = await connection.execute(query, [code]);
     return JSON.stringify(room);
 }
 
 // Function to get a room's name by code
 async function getRoomName(code: string) {
-    const name = await connection.execute(`SELECT name FROM rooms WHERE code='${code}'`);
+    const query = "SELECT name FROM rooms WHERE code = ?";
+    const name = await connection.execute(query, [code]);
     return JSON.stringify(name);
 }
 
 // Function to get a room's owner by code
 async function getRoomOwner(code: string) {
-    const name = await connection.execute(`SELECT owner FROM rooms WHERE code='${code}'`);
-    return JSON.stringify(name);
+    const query = "SELECT owner FROM rooms WHERE code = ?";
+    const owner = await connection.execute(query, [code]);
+    return JSON.stringify(owner);
 }
 
 // Function to check a room's code
 async function checkRoomCode(code: string) {
-    const count = await connection.execute(`SELECT code FROM rooms WHERE code='${code}'`);
+    const query = "SELECT * FROM rooms WHERE code = ?";
+    const count = await connection.execute(query, [code]);
     return JSON.stringify(count);
 }
 
