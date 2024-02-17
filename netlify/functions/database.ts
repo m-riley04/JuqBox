@@ -18,10 +18,11 @@ async function getRowCount(tableName:string) {
 // Function to add a row
 async function addRow(body: string) {
     const { tableName, values } = JSON.parse(body);
-    const headers = Object.keys(values).map(s => `${s}`).join(', ');
-    const vals = Object.values(values).map(s => `'${s}'`).join(', ');
-    const query = "INSERT INTO ? (?) VALUES (?);";
-    await connection.execute(query, [tableName, headers, vals]);
+    const placeholders = Object.keys(values).map(() => '?').join(', ');
+    const headers = Object.keys(values);
+    const vals = headers.map(header => values[header]);
+    const query = `INSERT INTO ? (${headers.join(', ')}) VALUES ( ${placeholders} );`;
+    await connection.execute(query, [tableName, ...vals]);
     return "Row added successfully";
 }
 
