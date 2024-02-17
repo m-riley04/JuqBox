@@ -10,6 +10,7 @@ export interface Room {
     id: string,
     code: string,
     name: string,
+    owner: string,
     max_guests: number,
     guest_ids: number[],
     max_queues_per_guest: number,
