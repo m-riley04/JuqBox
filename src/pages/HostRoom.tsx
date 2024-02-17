@@ -100,7 +100,7 @@ function HostRoom() {
         })
 
         // Redirect to another page
-        navigate("../")
+        navigate(`../host/${code}`)
     }
 
     return (
