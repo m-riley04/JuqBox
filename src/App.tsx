@@ -31,6 +31,7 @@ function App() {
           />
           <Route path="account" element={<Account/>}/>
           <Route path="login" element={<Login/>}/>
+          <Route path="logout"/>
           <Route path="spotify-response" element={<SpotifyResponse/>}/>
           <Route path="admin" element={<Admin/>}/>
           <Route path="*" element={<NotFound/>}/>
