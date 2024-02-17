@@ -33,8 +33,8 @@ async function addRoom(body: string) {
 
 // Function to remove a room
 async function removeRoom(body: string) {
-    const { id } = JSON.parse(body);
-    await connection.execute(`DELETE FROM rooms WHERE id='${id}'`);
+    const { code } = JSON.parse(body);
+    await connection.execute(`DELETE FROM rooms WHERE code='${code}'`);
     return "Room removed successfully";
 }
 
@@ -42,6 +42,24 @@ async function removeRoom(body: string) {
 async function getAllRooms() {
     const rows = await connection.execute(`SELECT * FROM rooms`);
     return JSON.stringify(rows);
+}
+
+// Function to get a room's data by code
+async function getRoom(code: number) {
+    const room = await connection.execute(`SELECT * FROM rooms WHERE code='${code}'`);
+    return JSON.stringify(room);
+}
+
+// Function to get a room's name by code
+async function getRoomName(code: number) {
+    const name = await connection.execute(`SELECT name FROM rooms WHERE code='${code}'`);
+    return JSON.stringify(name);
+}
+
+// Function to get a room's owner by code
+async function getRoomOwner(code: number) {
+    const name = await connection.execute(`SELECT owner FROM rooms WHERE code='${code}'`);
+    return JSON.stringify(name);
 }
 
 // Function to check a room's code
