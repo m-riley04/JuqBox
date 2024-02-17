@@ -2,6 +2,7 @@ import { ChangeEvent, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { Room } from "../../netlify/functions/rooms";
 import { useNavigate } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
 
 function HostRoom() {
     const navigate = useNavigate();
@@ -10,6 +11,8 @@ function HostRoom() {
     const [roomMaxGuests, setRoomMaxGuests] = useState(50);
     const [roomMaxCoexistentQueues, setRoomMaxCoexistentQueues] = useState(5);
     const [roomQueueCost, setRoomQueueCost] = useState(0);
+
+    const { isAuthenticated, user, error, isLoading } = useAuth0();
 
     function handleNameChange(event: ChangeEvent<HTMLInputElement>) {
         setRoomName(event.target.value);
