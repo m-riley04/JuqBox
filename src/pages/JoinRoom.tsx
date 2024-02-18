@@ -49,15 +49,15 @@ function JoinRoom() {
 
     return (
         <>
-            <Form onSubmit={handleJoinRoom}>
+            <Form onSubmit={handleJoinRoom} id="form-join">
                 <Form.Group controlId="roomCode">
                     <Form.Label style={{display: "block"}}>Room Code</Form.Label>
-                    <div style={{display: "inline-flex"}}>
-                    <Form.Control type="name" placeholder="Enter the room code here..." onChange={handleChangeRoomCode}></Form.Control>
-                    <Button onClick={handleClickedCamera}>QR</Button>
+                    <div style={{display: "inline-flex", boxSizing: "border-box", width: "100%"}}>
+                        <Form.Control type="name" placeholder="Enter the room code here..." onChange={handleChangeRoomCode}></Form.Control>
+                        <Button onClick={handleClickedCamera}>QR</Button>
                     </div>
                 </Form.Group>
-                <Button onClick={handleJoinRoom}>Join Room</Button>
+                <Button onClick={handleJoinRoom} style={{boxSizing: "border-box", width: "100%"}}>Join Room</Button>
             </Form>
         </>
     );
