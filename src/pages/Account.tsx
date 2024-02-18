@@ -14,17 +14,21 @@ function Account() {
 
     if (error) return (
         <>
-            <h1>Error</h1>
-            <p>There was an error logging you in: {error.message}</p>
-            <LoginButton></LoginButton>
+            <div className="centeredContainer">
+                <h1>Error</h1>
+                <p>There was an error logging you in: {error.message}</p>
+                <LoginButton></LoginButton>
+            </div>
         </>
     );
 
     if (!isAuthenticated) return (
         <>
-            <h1>You are not logged in yet</h1>
-            <p>Click the button below to log in now</p>
-            <LoginButton></LoginButton>
+            <div className="centeredContainer">
+                <h1>You are not logged in yet</h1>
+                <p>Click the button below to log in now</p>
+                <LoginButton></LoginButton>
+            </div>
         </>
     );
     
