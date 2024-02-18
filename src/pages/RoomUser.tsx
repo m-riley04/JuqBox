@@ -85,7 +85,6 @@ function RoomUser() {
         setGuestName(event.target.value);
     }
 
-    if (!guestName) return (
     function handleFormSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
 
@@ -100,6 +99,8 @@ function RoomUser() {
         // Generate a user id
         handleGenerateUserId();
     }, [])
+
+    if (!guestNameSelected) return (
         <>
             <h1>You are now joining '{roomData?.name}'</h1>
             <Form>
