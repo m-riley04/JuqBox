@@ -42,6 +42,16 @@ function RoomUser() {
         
         throw new Error("Unable to generate id (timed out)")
     }
+
+    function handleGenerateUserId() {
+        try {
+            const id = generateGuestId(10, roomData?.guest_ids);
+            setGuestId(id);
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
     function handleGuestNameChange(event: ChangeEvent<HTMLInputElement>) {
         setGuestName(event.target.value);
     }
