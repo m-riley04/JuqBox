@@ -24,6 +24,24 @@ function RoomUser() {
         })
     }
 
+    function generateGuestId(timeout: number, guests?: string[]) {
+        function isIdTaken(id: number, guests?: string[]) {
+            console.log(`Checking guest id '${id}'...`);
+            return guests?.includes(String(id))
+        }
+
+        const min = 1_000_000;
+        const max = 9_999_999;
+        for (let i = 0; i < timeout; i++) {
+            // Check if the room code is free
+            const id = Math.floor((Math.random() * (max - min) + min));
+            if (!isIdTaken(id, guests)) {
+                return id.toString()
+            }
+        }
+        
+        throw new Error("Unable to generate id (timed out)")
+    }
     function handleGuestNameChange(event: ChangeEvent<HTMLInputElement>) {
         setGuestName(event.target.value);
     }
