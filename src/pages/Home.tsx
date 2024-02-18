@@ -18,8 +18,8 @@ function Home() {
             <img alt="record image"/>
             <h1>JuqBox</h1>
             <p>You control the queue.</p>
-            <Button onClick={handleClickedHost}>Host</Button>
-            <Button onClick={handleClickedJoin}>Join</Button>
+            <button onClick={handleClickedHost}>Host</button>
+            <button onClick={handleClickedJoin}>Join</button>
         </>
     );
 }
