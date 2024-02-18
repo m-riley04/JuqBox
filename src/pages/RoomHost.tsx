@@ -85,13 +85,10 @@ function RoomHost() {
         // Check if the room exists
         handleCheckRoom();
 
-        // Check if the page is closing
-        window.addEventListener("beforeunload", (ev) => {
-            ev.preventDefault();
-
+        window.onbeforeunload = () => {
             // Close the room
             handleRoomClose();
-        });
+        }
     }, [])
     
     // Check if the room exists
