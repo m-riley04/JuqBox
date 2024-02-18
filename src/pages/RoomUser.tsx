@@ -19,7 +19,15 @@ function RoomUser() {
             if (!response.ok) {
                 throw new Error("Network response was not okay");
             }
-            console.log("Room created successfully!");
+            return response.json();
+        })
+        .then(data => {
+            setRoomData(data["rows"][0]);
+        })
+        .catch(error => {
+            console.error(error);
+        })
+    }
         })
         .catch(error => {
             console.error(error);
