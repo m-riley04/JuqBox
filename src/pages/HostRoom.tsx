@@ -101,7 +101,7 @@ function HostRoom() {
             name: roomName,
             owner: "",
             max_guests: roomMaxGuests,
-            guest_ids: [],
+            guest_ids: "{}",
             max_queues_per_guest: roomMaxCoexistentQueues,
             queue_cost: roomQueueCost
         })
