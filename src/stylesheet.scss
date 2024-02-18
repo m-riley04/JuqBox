@@ -11,8 +11,6 @@ $fade-duration: .3s;
 
 @import "bootstrap";
 
-#pages {
-    margin: 20px;
 }
 
 #form-join {
@@ -43,6 +41,12 @@ button {
 
 .clickable:hover {
     transition-duration: $fade-duration;
+}
+
+#pages {
+    margin: 20px;
+}
+
 #form-join {
     color: $text-dark;
     width: 50%;
