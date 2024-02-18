@@ -24,6 +24,11 @@ function RoomUser() {
         })
     }
 
+    function handleUpdateGuests() {
+        
+        updateGuests(roomData?.guest_ids);
+    }
+
     function generateGuestId(timeout: number, guests?: string[]) {
         function isIdTaken(id: number, guests?: string[]) {
             console.log(`Checking guest id '${id}'...`);
