@@ -16,16 +16,20 @@ export interface User {
 // Add a user
 async function addUser(body: string) {
     const { values } = JSON.parse(body);
-    const headers = Object.keys(values).map(s => `${s}`).join(', ');
-    const vals = Object.values(values).map(s => `'${s}'`).join(', ');
-    await connection.execute(`INSERT INTO users (${headers}) VALUES (${vals});`);
+    const VALID_HEADERS = ["id", "username", "password_hash", "email"];
+    const placeholders = VALID_HEADERS.filter(key => Object.keys(values).includes(key)).map(() => '?').join(', ');
+    const headers = VALID_HEADERS.filter(key => Object.keys(values).includes(key));
+    const vals = headers.map(header => values[header]);
+    const query = `INSERT INTO users (${headers.join(', ')}) VALUES ( ${placeholders} );`;
+    await connection.execute(query, [headers, vals]);
     return "User added successfully";
 }
 
 // Remove a user
 async function removeUser(body: string) {
     const { id } = JSON.parse(body);
-    await connection.execute(`DELETE FROM users WHERE id = '${id}'`, [id]);
+    const query = "DELETE FROM users WHERE id = ?"
+    await connection.execute(query, [id]);
     return "User removed successfully";
 }
 
@@ -43,13 +47,15 @@ async function getAllUsers() {
 
 // Check if a username exists
 async function checkUserUsername(username: string) {
-    const count = await connection.execute(`SELECT username FROM users WHERE username='${username}'`);
+    const query = "SELECT username FROM users WHERE username = ?";
+    const count = await connection.execute(query, [username]);
     return JSON.stringify(count);
 }
 
 // Check if an email address exists
 async function checkUserEmail(email: string) {
-    const count = await connection.execute(`SELECT email FROM users WHERE email='${email}'`);
+    const query = "SELECT email FROM users WHERE email = ?";
+    const count = await connection.execute(query, [email]);
     return JSON.stringify(count);
 }
 

@@ -5,31 +5,39 @@ import HostRoom from "./pages/HostRoom";
 import JoinRoom from "./pages/JoinRoom";
 import Account from "./pages/Account";
 import Login from "./pages/Login";
-import CreateAccount from "./pages/CreateAccount";
 import NavigationBar from "./components/NavigationBar/NavigationBar";
 import "./stylesheet.scss";
 import Admin from "./pages/Admin";
 import SpotifyResponse from "./pages/SpotifyResponse";
-import RoomNotFound from "./pages/RoomNotFound";
-
+import RoomHost from "./pages/RoomHost";
+import RoomUser from "./pages/RoomUser";
 
 function App() {
   return (
     <div id="app">
       <BrowserRouter>
         <NavigationBar/>
+        <div id="pages">
         <Routes>
           <Route index element={<Home/>}/>
           <Route path="host" element={<HostRoom/>}/>
+          <Route 
+              path="host/:code"
+              element={<RoomHost/>}
+          />
           <Route path="join" element={<JoinRoom/>}/>
+          <Route 
+              path="join/:code"
+              element={<RoomUser/>}
+          />
           <Route path="account" element={<Account/>}/>
           <Route path="login" element={<Login/>}/>
-          <Route path="create-account" element={<CreateAccount/>}/>
+          <Route path="logout"/>
           <Route path="spotify-response" element={<SpotifyResponse/>}/>
           <Route path="admin" element={<Admin/>}/>
-          <Route path="join/*" element={<RoomNotFound/>}/>
           <Route path="*" element={<NotFound/>}/>
         </Routes>
+        </div>
       </BrowserRouter>
     </div>
   )

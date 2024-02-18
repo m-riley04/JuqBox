@@ -26,7 +26,7 @@ function JoinRoom() {
         }
 
         console.log("Attempting to join room...")
-        navigate(`../rooms/${code}`)
+        navigate(`../join/${code}`)
     }
 
     async function doesRoomExist(code:number) {
@@ -51,12 +51,11 @@ function JoinRoom() {
         <>
             <Form onSubmit={handleJoinRoom}>
                 <Form.Group controlId="roomCode">
-                    <Form.Label>Room Code</Form.Label>
+                    <Form.Label style={{display: "block"}}>Room Code</Form.Label>
                     <div style={{display: "inline-flex"}}>
                     <Form.Control type="name" placeholder="Enter the room code here..." onChange={handleChangeRoomCode}></Form.Control>
                     <Button onClick={handleClickedCamera}>QR</Button>
                     </div>
-                    
                 </Form.Group>
                 <Button onClick={handleJoinRoom}>Join Room</Button>
             </Form>

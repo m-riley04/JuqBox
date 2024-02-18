@@ -10,35 +10,41 @@ async function createTable(body: string) {
 
 // Function to get count of all rows
 async function getRowCount(tableName:string) {
-    const count = await connection.execute(`SELECT COUNT(*) FROM ${tableName}`);
+    const query = `SELECT COUNT(*) FROM ? `;
+    const count = await connection.execute(query, [tableName]);
     return JSON.stringify(count);
 }
 
 // Function to add a row
 async function addRow(body: string) {
     const { tableName, values } = JSON.parse(body);
-    const headers = Object.keys(values).map(s => `${s}`).join(', ');
-    const vals = Object.values(values).map(s => `'${s}'`).join(', ');
-    await connection.execute(`INSERT INTO ${tableName} (${headers}) VALUES (${vals});`);
+    const placeholders = Object.keys(values).map(() => '?').join(', ');
+    const headers = Object.keys(values);
+    const vals = headers.map(header => values[header]);
+    const query = `INSERT INTO ? (${headers.join(', ')}) VALUES ( ${placeholders} );`;
+    await connection.execute(query, [tableName, ...vals]);
     return "Row added successfully";
 }
 
 // Function to remove a row
 async function removeRow(body: string) {
     const { tableName, id } = JSON.parse(body);
-    await connection.execute(`DELETE FROM ${tableName} WHERE id = ?`, [id]);
+    const query = "DELETE FROM ? WHERE id = ?";
+    await connection.execute(query, [tableName, id]);
     return "Row removed successfully";
 }
 
 // Function to get all rows from a table
 async function getAllRows(tableName: string) {
-    const rows = await connection.execute(`SELECT * FROM ${tableName}`);
+    const query = "SELECT * FROM ? ";
+    const rows = await connection.execute(query, [tableName]);
     return JSON.stringify(rows);
 }
 
 // Function to get a row by ID
 async function getRowById(tableName: string, id: string) {
-    const row = await connection.execute(`SELECT * FROM ${tableName} WHERE id = ?`, [id]);
+    const query = "SELECT * FROM ? WHERE id = ?";
+    const row = await connection.execute(query, [tableName, id]);
     return JSON.stringify(row);
 }
 
@@ -46,8 +52,8 @@ async function getRowById(tableName: string, id: string) {
 async function updateRow(body: string) {
     const { tableName, id, values } = JSON.parse(body);
     const setClause = Object.keys(values).map(key => `${key} = ?`).join(', ');
-    const queryParams = [...Object.values(values), id];
-    await connection.execute(`UPDATE ${tableName} SET ${setClause} WHERE id = ?`, queryParams);
+    const query = "UPDATE ${tableName} SET ${setClause} WHERE id = ?";
+    await connection.execute(query, [tableName, setClause, ...Object.values(values), id]);
     return "Row updated successfully";
 }
 

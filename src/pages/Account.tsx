@@ -25,8 +25,6 @@ function Account() {
             <LoginButton></LoginButton>
         </>
     );
-
-    
     
     if (isAuthenticated) return (
         <>

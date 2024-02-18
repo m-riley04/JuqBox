@@ -2,6 +2,8 @@ import { ChangeEvent, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { Room } from "../../netlify/functions/rooms";
 import { useNavigate } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
+import LoginButton from "../components/Auth0/LoginButton";
 
 function HostRoom() {
     const navigate = useNavigate();
@@ -11,6 +13,9 @@ function HostRoom() {
     const [roomMaxCoexistentQueues, setRoomMaxCoexistentQueues] = useState(5);
     const [roomQueueCost, setRoomQueueCost] = useState(0);
 
+    const { isAuthenticated, user, error } = useAuth0();
+
+    //#region Component Handlers
     function handleNameChange(event: ChangeEvent<HTMLInputElement>) {
         setRoomName(event.target.value);
     }
@@ -26,7 +31,9 @@ function HostRoom() {
     function handleCostPerQueueChange(event: ChangeEvent<HTMLInputElement>) {
         setRoomQueueCost(Number(event.target.value));
     }
+    //#endregion Component Handlers
 
+    //#region Server Handlers
     function createRoom(room: Room) {
 
         const body = JSON.stringify({
@@ -48,7 +55,7 @@ function HostRoom() {
     }
 
     async function isCodeTaken(code:number) {
-        console.log("Checking room code...");
+        console.log(`Checking room code '${code}'...`);
 
         try {
             const response = await fetch(`/.netlify/functions/rooms/checkRoomCode/${code}`, { method: 'GET' })
@@ -71,7 +78,6 @@ function HostRoom() {
         for (let i = 0; i < timeout; i++) {
             // Check if the room code is free
             const code = Math.floor((Math.random() * (max - min) + min));
-            console.log(`Checking code ${code}...`);
             if (!await isCodeTaken(code)) {
                 return code.toString()
             }
@@ -93,17 +99,34 @@ function HostRoom() {
             id: code,
             code: code,
             name: roomName,
+            owner: "",
             max_guests: roomMaxGuests,
-            guest_ids: [],
+            guest_ids: "{}",
             max_queues_per_guest: roomMaxCoexistentQueues,
             queue_cost: roomQueueCost
         })
 
         // Redirect to another page
-        navigate("../")
+        navigate(`../host/${code}`)
     }
+    //#endregion Server Handlers
 
-    return (
+    if (error) return (
+        <>
+            <h1>Please login first to start hosting!</h1>
+            <p>Error: {error.message}</p>
+            <LoginButton></LoginButton>
+        </>
+    );
+
+    if (!isAuthenticated) return (
+        <>
+            <h1>Please login first to start hosting!</h1>
+            <LoginButton></LoginButton>
+        </>
+    );
+
+    if (isAuthenticated) return (
         <>
             <Form>
                 <Form.Group controlId="roomName">
@@ -112,7 +135,7 @@ function HostRoom() {
                         type="name"
                         //defaultValue="My Room"
                         onChange={handleNameChange}
-                        placeholder="My Room"
+                        placeholder={`${user?.nickname}'s Room`}
                     />
                 </Form.Group>
 
@@ -132,10 +155,18 @@ function HostRoom() {
                 </Form.Group>
                 <Button onClick={handleCreateRoom}>Create Room</Button>
             </Form>
-
-            
+            <button onClick={() => {
+                console.log(user);
+            }}>Show User Data</button>
         </>
     );
+
+    return (
+        <>
+            <h1>Unexpected error has occurred with authorization</h1>
+            <p>Please refresh the page and try again.</p>
+        </>
+    )
 }
 
 export default HostRoom;
