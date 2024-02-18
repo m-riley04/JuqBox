@@ -4,21 +4,27 @@ $primary: #00c74c;
 $secondary: #029e3d;
 
 $button: #00c74c;
-$button-hover: #04b849;
+$button-hover: #03a341;
 $button-click: #019c3c;
 
 $fade-duration: .3s;
 
 @import "bootstrap";
 
+#pages {
+    margin: 20px;
+}
+
 button:hover {
     background-color: $button-hover;
     transition-duration: $fade-duration;
 }
+
 button:active {
     background-color: $button-click;
     transition-duration: $fade-duration;
 }
+
 button {
     background-color: $button;
     padding: 10px;
@@ -30,6 +36,7 @@ button {
 .clickable {
     transition-duration: $fade-duration;
 }
+
 .clickable:hover {
     transition-duration: $fade-duration;
 }
