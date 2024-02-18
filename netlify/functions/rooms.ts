@@ -5,6 +5,15 @@ import connection from "@netlify/planetscale";
  * Interface for the room table's rows
  * @key the title of the column
  * @value the value of the column
+ * 
+ * @param {string} id
+ * @param {string} code
+ * @param {string} name
+ * @param {string} owner
+ * @param {string} max_guests
+ * @param {string} guest_ids a JSON string containing all guest ids and data
+ * @param {string} max_queues_per_guest
+ * @param {string} queue_cost
  */
 export interface Room {
     id: string,
@@ -12,7 +21,7 @@ export interface Room {
     name: string,
     owner: string,
     max_guests: number,
-    guest_ids: number[],
+    guest_ids: string,
     max_queues_per_guest: number,
     queue_cost: number
 }
@@ -41,6 +50,14 @@ async function removeRoom(body: string) {
     const query = "DELETE FROM rooms WHERE code = ?"
     await connection.execute(query, [code]);
     return "Room removed successfully";
+}
+
+// Update a room's guest list
+async function updateRoomGuestList(body: string) {
+    const { guests } = JSON.parse(body);
+    const query = "UPDATE rooms SET guest_ids = ? ";
+    await connection.execute(query, [guests]);
+    return "Room guest list updated successfully";
 }
 
 // Function to get all rooms
@@ -88,7 +105,11 @@ export const handler: Handler = async (event: HandlerEvent) => {
         else if (httpMethod === "DELETE" && path.includes("/removeRoom")) {
             if (!body) throw new Error("'body' is required");
             return { statusCode: 200, body: await removeRoom(body) };
-        } 
+        }
+        else if (httpMethod === "UPDATE" && path.includes("/updateRoomGuestList")) {
+            if (!body) throw new Error("'body' is required");
+            return { statusCode: 200, body: await updateRoomGuestList(body) };
+        }
         else if (httpMethod === "GET" && path.includes("/getRoomCount")) {
             return { statusCode: 200, body: await getRoomCount() };
         } 
