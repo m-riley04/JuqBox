@@ -103,11 +103,12 @@ function RoomUser() {
     if (!guestNameSelected) return (
         <>
             <h1>You are now joining '{roomData?.name}'</h1>
-            <Form>
+            <Form onSubmit={handleFormSubmit}>
                 <Form.Group>
                     <Form.Label>Guest Name</Form.Label>
-                    <Form.Control placeholder="cooldude336" onChange={handleGuestNameChange}></Form.Control>
+                    <Form.Control placeholder="Type your name here..." onChange={handleGuestNameChange}></Form.Control>
                 </Form.Group>
+                <button>Enter Room</button>
             </Form>
 
             <p><a>Create an account</a> to never have to see this page again</p>
