@@ -28,10 +28,11 @@ button:active {
 }
 
 button {
+    color: $text-dark;
     background-color: $button;
     padding: 10px;
     border-width: 0;
-    border-radius: 15px;
+    border-radius: 10px;
     transition-duration: $fade-duration;
 }
 
