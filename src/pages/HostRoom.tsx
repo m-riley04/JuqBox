@@ -132,36 +132,38 @@ function HostRoom() {
 
     if (isAuthenticated) return (
         <>
-            <Form>
-                <Form.Group controlId="roomName">
-                    <Form.Label>Room Name</Form.Label>
-                    <Form.Control 
-                        type="name"
-                        //defaultValue="My Room"
-                        onChange={handleNameChange}
-                        placeholder={`${user?.nickname}'s Room`}
-                    />
-                </Form.Group>
+            <div className="container">
+                <Form>
+                    <Form.Group controlId="roomName">
+                        <Form.Label>Room Name</Form.Label>
+                        <Form.Control 
+                            type="name"
+                            //defaultValue="My Room"
+                            onChange={handleNameChange}
+                            placeholder={`${user?.nickname}'s Room`}
+                        />
+                    </Form.Group>
 
-                <Form.Group controlId="maxGuests">
-                    <Form.Label>Maximum Guests</Form.Label>
-                    <Form.Range min={1} max={999} step={1} defaultValue={100} onChange={handleMaxGuestsChange}></Form.Range>
-                </Form.Group>
+                    <Form.Group controlId="maxGuests">
+                        <Form.Label>Maximum Guests</Form.Label>
+                        <Form.Range min={1} max={999} step={1} defaultValue={100} onChange={handleMaxGuestsChange}></Form.Range>
+                    </Form.Group>
 
-                <Form.Group controlId="maxCocurrentQueues">
-                    <Form.Label>Maximum Concurrent Queues</Form.Label>
-                    <Form.Range min={1} max={50} step={1} defaultValue={10} onChange={handleMaxConcurrentQueuesChange}></Form.Range>
-                </Form.Group>
+                    <Form.Group controlId="maxCocurrentQueues">
+                        <Form.Label>Maximum Concurrent Queues</Form.Label>
+                        <Form.Range min={1} max={50} step={1} defaultValue={10} onChange={handleMaxConcurrentQueuesChange}></Form.Range>
+                    </Form.Group>
 
-                <Form.Group controlId="costPerQueue">
-                    <Form.Label>Cost Per Queue</Form.Label>
-                    <Form.Range min={0} max={5} step={0.25} defaultValue={0} onChange={handleCostPerQueueChange}></Form.Range>
-                </Form.Group>
-                <Button onClick={handleCreateRoom}>Create Room</Button>
-            </Form>
-            <button onClick={() => {
-                console.log(user);
-            }}>Show User Data</button>
+                    <Form.Group controlId="costPerQueue">
+                        <Form.Label>Cost Per Queue</Form.Label>
+                        <Form.Range min={0} max={5} step={0.25} defaultValue={0} onChange={handleCostPerQueueChange}></Form.Range>
+                    </Form.Group>
+                    <button onClick={handleCreateRoom}>Create Room</button>
+                </Form>
+                <button onClick={() => {
+                    console.log(user);
+                }}>Show User Data</button>
+            </div>
         </>
     );
 
