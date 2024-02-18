@@ -14,7 +14,7 @@ function Home() {
     }
     return (
         <>
-            <img alt="record image"/>
+            <img alt="record image" src="../assets/juqbox_record.svg" id="record" className="rotating"/>
             <h1>JuqBox</h1>
             <p>You control the queue.</p>
             <button onClick={handleClickedHost}>Host</button>
