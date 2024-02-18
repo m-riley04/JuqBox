@@ -28,6 +28,20 @@ function RoomUser() {
             console.error(error);
         })
     }
+
+    function updateGuests(guests: string) {
+        const body = JSON.stringify({
+            guests
+        })
+        fetch('/.netlify/functions/rooms/updateRoomGuestList', {
+            method: 'UPDATE',
+            body: guests
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Network response was not okay");
+            }
+            console.log("Guests updated successfully!");
         })
         .catch(error => {
             console.error(error);
