@@ -93,6 +93,13 @@ function RoomUser() {
 
         setGuestNameSelected(true);
     }
+
+    useEffect(() => {
+        getRoomData();
+
+        // Generate a user id
+        handleGenerateUserId();
+    }, [])
         <>
             <h1>You are now joining '{roomData?.name}'</h1>
             <Form>
