@@ -35,6 +35,15 @@ button {
     transition-duration: $fade-duration;
 }
 
+.centeredContainer {
+    color: $text-dark;
+    width: 70%;
+    margin: auto;
+    padding: 15px;
+    background-color: $background-form;
+    border-radius: 10px;
+}
+
 .clickable {
     transition-duration: $fade-duration;
 }
