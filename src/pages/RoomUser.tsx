@@ -11,7 +11,7 @@ function RoomUser() {
     const [guestName, setGuestName] = useState("user");
     const [guestId, setGuestId] = useState("");
 
-    function getRoomName() {
+    function getRoomData() {
         fetch(`/.netlify/functions/rooms/getRoomName/${params.code}`, {
             method: 'GET',
         })
