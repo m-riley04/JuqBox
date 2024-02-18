@@ -43,4 +43,20 @@ button {
 
 .clickable:hover {
     transition-duration: $fade-duration;
+#form-join {
+    color: $text-dark;
+    width: 50%;
+    margin: auto;
+    padding: 15px;
+    background-color: $background-form;
+    border-radius: 10px;
+}
+
+#form-join div {
+    padding: 10px;
+}
+
+#form-join label {
+    color: $text-dark;
+    font-size: 30px;
 }
