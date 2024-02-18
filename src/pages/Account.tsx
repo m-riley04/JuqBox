@@ -22,6 +22,8 @@ function Account() {
 
     if (!isAuthenticated) return (
         <>
+            <h1>You are not logged in yet</h1>
+            <p>Click the button below to log in now</p>
             <LoginButton></LoginButton>
         </>
     );
