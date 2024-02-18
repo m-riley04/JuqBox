@@ -11,6 +11,8 @@ $fade-duration: .3s;
 
 @import "bootstrap";
 
+* {
+    color: $text;
 }
 
 html, body {
