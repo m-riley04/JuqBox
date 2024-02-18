@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4000 4000">
+  <defs>
+    <style>
+      .cls-1 {
+        font-size: 100px;
+      }
+
+      .cls-1, .cls-2 {
+        font-family: MyriadPro-Regular, 'Myriad Pro';
+      }
+
+      .cls-3 {
+        stroke-width: 20.25px;
+      }
+
+      .cls-3, .cls-4, .cls-5 {
+        stroke-miterlimit: 10;
+      }
+
+      .cls-3, .cls-5 {
+        fill: none;
+        stroke: #000;
+      }
+
+      .cls-4 {
+        stroke: #231f20;
+      }
+
+      .cls-4, .cls-6 {
+        fill: #231f20;
+      }
+
+      .cls-7 {
+        fill: #fff200;
+      }
+
+      .cls-7, .cls-6 {
+        stroke-width: 0px;
+      }
+
+      .cls-8 {
+        opacity: .15;
+      }
+
+      .cls-2 {
+        font-size: 262.92px;
+      }
+
+      .cls-5 {
+        stroke-width: 20px;
+      }
+    </style>
+  </defs>
+  <circle class="cls-4" cx="2000" cy="2000" r="2000"/>
+  <circle class="cls-7" cx="2000.09" cy="1999.52" r="690.69"/>
+  <circle class="cls-6" cx="2000.09" cy="1999.52" r="50"/>
+  <g class="cls-8">
+    <circle class="cls-5" cx="2000.09" cy="1999.52" r="1951.09"/>
+    <circle class="cls-5" cx="2000.09" cy="2000" r="1840.86"/>
+    <circle class="cls-5" cx="2000.09" cy="2000" r="1741.31"/>
+    <circle class="cls-5" cx="2000.09" cy="2000.43" r="1642.94"/>
+    <circle class="cls-5" cx="2000" cy="2000.8" r="1448.69"/>
+    <circle class="cls-5" cx="2000" cy="2000.8" r="1370.34"/>
+    <circle class="cls-5" cx="2000" cy="2001.14" r="1292.93"/>
+    <circle class="cls-5" cx="2000" cy="2000" r="1220.33"/>
+    <circle class="cls-5" cx="2000" cy="2000.3" r="1089.13"/>
+    <circle class="cls-5" cx="2000" cy="2000.57" r="1027.6"/>
+    <circle class="cls-3" cx="1999.95" cy="2000.57" r="972.28"/>
+    <circle class="cls-5" cx="1999.95" cy="2001.14" r="1897.61"/>
+    <circle class="cls-5" cx="1999.95" cy="2001.6" r="1790.41"/>
+    <circle class="cls-5" cx="1999.95" cy="2001.6" r="1693.58"/>
+    <circle class="cls-5" cx="1999.95" cy="2002.02" r="1597.91"/>
+    <circle class="cls-5" cx="1999.86" cy="2002.02" r="1493.34"/>
+    <circle class="cls-5" cx="1999.86" cy="2002.39" r="1408.98"/>
+    <circle class="cls-5" cx="1999.86" cy="2002.39" r="1332.78"/>
+    <circle class="cls-5" cx="1999.86" cy="2002.71" r="1257.49"/>
+    <circle class="cls-5" cx="1999.86" cy="2001.9" r="1119.84"/>
+    <circle class="cls-5" cx="1999.86" cy="2001.9" r="1059.27"/>
+    <circle class="cls-5" cx="1999.86" cy="2002.15" r="999.43"/>
+  </g>
+  <text class="cls-2" transform="translate(1588.97 2000.39) rotate(-85.28)"><tspan x="0" y="0">j</tspan></text>
+  <text class="cls-2" transform="translate(1587.81 1945.26) rotate(-72.14)"><tspan x="0" y="0">u</tspan></text>
+  <text class="cls-2" transform="translate(1626.16 1818.66) rotate(-53.71)"><tspan x="0" y="0">q</tspan></text>
+  <text class="cls-2" transform="translate(1704.29 1708.41) rotate(-34.82)"><tspan x="0" y="0">b</tspan></text>
+  <text class="cls-2" transform="translate(1815.73 1628.93) rotate(-16.38)"><tspan x="0" y="0">o</tspan></text>
+  <text class="cls-2" transform="translate(1939.27 1591.98) rotate(.04)"><tspan x="0" y="0">x</tspan></text>
+  <text class="cls-2" transform="translate(2052.48 1594.52) rotate(11.17)"><tspan x="0" y="0">.</tspan></text>
+  <text class="cls-2" transform="translate(2099.3 1600.93) rotate(21.13)"><tspan x="0" y="0">s</tspan></text>
+  <text class="cls-2" transform="translate(2188 1630.13) rotate(37.11)"><tspan x="0" y="0">p</tspan></text>
+  <text class="cls-2" transform="translate(2297.47 1712.74) rotate(54.66)"><tspan x="0" y="0">a</tspan></text>
+  <text class="cls-2" transform="translate(2365.09 1806.66) rotate(69.97)"><tspan x="0" y="0">c</tspan></text>
+  <text class="cls-2" transform="translate(2403.69 1904.66) rotate(85.59)"><tspan x="0" y="0">e</tspan></text>
+  <text class="cls-1" transform="translate(1764.28 2336.01) rotate(31.07)"><tspan x="0" y="0">b</tspan></text>
+  <text class="cls-1" transform="translate(1817.94 2367.51) rotate(23.07)"><tspan x="0" y="0">y</tspan></text>
+  <text class="cls-1" transform="translate(1867.77 2387.66) rotate(17.38)"><tspan x="0" y="0">:</tspan></text>
+  <text class="cls-1" transform="translate(1889.9 2394.52) rotate(14.08)"><tspan x="0" y="0"> </tspan></text>
+  <text class="cls-1" transform="translate(1913.53 2400.55) rotate(9.83)"><tspan x="0" y="0">r</tspan></text>
+  <text class="cls-1" transform="translate(1949.5 2406.45) rotate(5.36)"><tspan x="0" y="0">i</tspan></text>
+  <text class="cls-1" transform="translate(1975.54 2408.8) rotate(1.68)"><tspan x="0" y="0">l</tspan></text>
+  <text class="cls-1" transform="translate(2003.44 2410.06) rotate(-4.03)"><tspan x="0" y="0">e</tspan></text>
+  <text class="cls-1" transform="translate(2058.73 2405.73) rotate(-11.47)"><tspan x="0" y="0">y</tspan></text>
+  <text class="cls-1" transform="translate(2108.63 2394.8) rotate(-16.8)"><tspan x="0" y="0"> </tspan></text>
+  <text class="cls-1" transform="translate(2135.56 2388.53) rotate(-25.04)"><tspan x="0" y="0">m</tspan></text>
+  <text class="cls-1" transform="translate(2215.44 2348.27) rotate(-33.22)"><tspan x="0" y="0">.</tspan></text>
+</svg>
