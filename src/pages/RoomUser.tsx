@@ -86,6 +86,13 @@ function RoomUser() {
     }
 
     if (!guestName) return (
+    function handleFormSubmit(event: FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+
+        // TODO - check if guest name is valid
+
+        setGuestNameSelected(true);
+    }
         <>
             <h1>You are now joining '{roomData?.name}'</h1>
             <Form>
