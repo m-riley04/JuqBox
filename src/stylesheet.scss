@@ -13,8 +13,8 @@ $fade-duration: .3s;
 
 }
 
-#form-join {
-    margin: auto;
+html, body {
+    background-color: $background;
 }
 
 button:hover {
