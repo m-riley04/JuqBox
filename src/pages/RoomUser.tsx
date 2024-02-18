@@ -117,8 +117,8 @@ function RoomUser() {
 
     return (
         <>
-            <h1>Welcome to '{params.code}'!</h1>
-            <p>You can <a href="">share the code</a> with your friends!</p>
+            <h1>Welcome to '{roomData?.name}', {guestName}!</h1>
+            <p>You can <a>share the code</a> with your friends!</p>
 
             <h2>Select the songs you'd like to queue:</h2>
             <p>(to be implemented)</p>
