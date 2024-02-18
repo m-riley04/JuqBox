@@ -113,16 +113,20 @@ function HostRoom() {
 
     if (error) return (
         <>
-            <h1>Please login first to start hosting!</h1>
-            <p>Error: {error.message}</p>
-            <LoginButton></LoginButton>
+            <div className="centeredContainer">
+                <h1>Please login first to start hosting!</h1>
+                <p>Error: {error.message}</p>
+                <LoginButton></LoginButton>
+            </div>
         </>
     );
 
     if (!isAuthenticated) return (
         <>
-            <h1>Please login first to start hosting!</h1>
-            <LoginButton></LoginButton>
+            <div className="centeredContainer">
+                <h1>Please login first to start hosting!</h1>
+                <LoginButton></LoginButton>
+            </div>
         </>
     );
 
