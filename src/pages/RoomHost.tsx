@@ -1,64 +1,39 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { doesRoomExist, getRoomData, removeRoom } from "../server/roomRequests";
+import { useAuth0 } from "@auth0/auth0-react";
 
 function RoomHost() {
     const params = useParams();
     const navigate = useNavigate();
     const [roomExists, setRoomExists] = useState(false);
+    const [userOwnsRoom, setUserOwnsRoom] = useState(false);
 
-    //#region Server Handlers
-    function removeRoom(roomCode:number) {
-        const body = JSON.stringify({
-            code: roomCode
-        })
-        fetch('/.netlify/functions/rooms/removeRoom', {
-            method: 'DELETE',
-            body
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Network response was not okay");
-            }
-            console.log("Room deleted successfully!");
+    const { user } = useAuth0();
+
+    async function handleCheckRoom() {
+        await doesRoomExist(Number(params.code))
+        .then(result => {
+            setRoomExists(result);
         })
         .catch(error => {
             console.error(error);
         })
     }
 
-    async function doesRoomExist(code:number) {
-        console.log("Checking room code...");
-
-        try {
-            const response = await fetch(`/.netlify/functions/rooms/checkRoomCode/${code}`, { method: 'GET' })
-            const result = await response.json();
-
-            if (result.rows.length > 0) {
-                return true;
+    async function handleCheckRoomOwner() {
+        await getRoomData(Number(params.code))
+        .then(data => {
+            // Check if the user owns this room
+            console.log("Checking if the user owns this room...");
+            if (user?.nickname === data.owner) {
+                setUserOwnsRoom(true);
             }
-            return false;
-
-        } catch (error) {
-            console.error(`Unable to check code: ${error}`);
-            return true;
-        }
+        })
+        .catch(error => {
+            console.error(error);
+        })
     }
-
-    function handleRoomClose() {
-        // Delete the room from the database
-        removeRoom(Number(params.code));
-    }
-
-    function handleCheckRoom() {
-        doesRoomExist(Number(params.code))
-            .then(result => {
-                setRoomExists(result);
-            })
-            .catch(error => {
-                console.error(error);
-            })
-    }
-    //#endregion Server Handlers
 
     //#region Component Handlers
     function handleClickCloseRoom() {
@@ -85,14 +60,17 @@ function RoomHost() {
         // Check if the room exists
         handleCheckRoom();
 
+        // Get the current room data
+        handleCheckRoomOwner();
+
         window.onbeforeunload = () => {
-            // Close the room
-            handleRoomClose();
+            // Delete the room from the database
+            removeRoom(Number(params.code));
         }
     }, [])
     
     // Check if the room exists
-    if (roomExists) return (
+    if (roomExists && userOwnsRoom) return (
         <>
             <h1>Code: {params.code}</h1>
             <p>Join the queue now at <a href="juqbox.space/join" target="_blank" rel="noreferrer">juqbox.space/join</a></p>
@@ -101,6 +79,13 @@ function RoomHost() {
             <button onClick={handleClickManageUsers}>ManageUsers</button>
         </>
     );
+
+    if (!userOwnsRoom) return (
+        <>
+            <h1>You do not own this room.</h1>
+            <button onClick={handleClickHost}>Host your own room</button>
+        </>
+    )
 
     // If the room doesn't exist
     return (

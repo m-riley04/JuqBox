@@ -1,6 +1,7 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { doesRoomExist } from "../server/roomRequests";
 
 function JoinRoom() {
     const navigate = useNavigate();
@@ -29,35 +30,17 @@ function JoinRoom() {
         navigate(`../join/${code}`)
     }
 
-    async function doesRoomExist(code:number) {
-        console.log("Checking room code...");
-
-        try {
-            const response = await fetch(`/.netlify/functions/rooms/checkRoomCode/${code}`, { method: 'GET' })
-            const result = await response.json();
-
-            if (result.rows.length > 0) {
-                return true;
-            }
-            return false;
-
-        } catch (error) {
-            console.error(`Unable to check code: ${error}`);
-            return true;
-        }
-    }
-
     return (
         <>
-            <Form onSubmit={handleJoinRoom}>
+            <Form onSubmit={handleJoinRoom} id="form-join">
                 <Form.Group controlId="roomCode">
                     <Form.Label style={{display: "block"}}>Room Code</Form.Label>
-                    <div style={{display: "inline-flex"}}>
-                    <Form.Control type="name" placeholder="Enter the room code here..." onChange={handleChangeRoomCode}></Form.Control>
-                    <Button onClick={handleClickedCamera}>QR</Button>
+                    <div style={{display: "inline-flex", boxSizing: "border-box", width: "100%"}}>
+                        <Form.Control type="name" placeholder="Enter the room code here..." onChange={handleChangeRoomCode}></Form.Control>
+                        <Button onClick={handleClickedCamera}>QR</Button>
                     </div>
                 </Form.Group>
-                <Button onClick={handleJoinRoom}>Join Room</Button>
+                <Button onClick={handleJoinRoom} style={{boxSizing: "border-box", width: "100%"}}>Join Room</Button>
             </Form>
         </>
     );

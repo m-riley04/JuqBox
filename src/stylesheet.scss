@@ -1,7 +1,15 @@
 
 
 $primary: #00c74c;
-$secondary: #029e3d;
+$secondary: #2d312c;
+$tertiary: #88978d;
+
+$background: #1a1a1a;
+$text: #e7e7e7;
+$text-dark: #0e0e0e;
+
+$background-form: rgb(243, 243, 243);
+$background-container: rgb(243, 243, 243);
 
 $button: #00c74c;
 $button-hover: #03a341;
@@ -11,8 +19,12 @@ $fade-duration: .3s;
 
 @import "bootstrap";
 
-#pages {
-    margin: 20px;
+* {
+    color: $text;
+}
+
+html, body {
+    background-color: $background;
 }
 
 button:hover {
@@ -26,11 +38,21 @@ button:active {
 }
 
 button {
+    color: $text-dark;
     background-color: $button;
     padding: 10px;
     border-width: 0;
-    border-radius: 15px;
+    border-radius: 10px;
     transition-duration: $fade-duration;
+}
+
+.centeredContainer {
+    color: $text-dark;
+    width: 70%;
+    margin: auto;
+    padding: 15px;
+    background-color: $background-container;
+    border-radius: 10px;
 }
 
 .clickable {
@@ -39,4 +61,83 @@ button {
 
 .clickable:hover {
     transition-duration: $fade-duration;
+}
+
+.buttonRow {
+    margin: auto;
+}
+
+.buttonRow button {
+    margin-right: 10px;
+}
+
+#pages {
+    margin: 20px;
+}
+
+#home {
+    margin: auto;
+    padding: 20px;
+}
+
+#home #title-container {
+    display: block;
+    margin: auto;
+}
+
+#home #title-container h1 {
+    font-size: 20vh;
+}
+
+// Weird (cool) behavior with vinyl record wobbling. Only started when adding a Bootstrap "row" wrapper
+#home #record {
+    width: 60vh;
+    height: 60vh;
+}
+
+#home #title-container p {
+    font-size: 5vh;
+}
+
+#home #title-container .buttonRow {
+    height: 8vh;
+}
+
+#home #title-container .buttonRow button {
+    width: 35%;
+    height: 100%;
+    font-size: 100%;
+    text-align: center;
+    align-items: center;
+}
+
+#form-join {
+    color: $text-dark;
+    width: 50%;
+    margin: auto;
+    padding: 15px;
+    background-color: $background-form;
+    border-radius: 10px;
+}
+
+#form-join div {
+    padding: 10px;
+}
+
+#form-join label {
+    color: $text-dark;
+    font-size: 30px;
+}
+
+@keyframes rotating {
+    from {
+        transform:rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.rotating {
+    animation: rotating 2s linear infinite;
 }
