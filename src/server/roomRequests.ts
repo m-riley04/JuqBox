@@ -90,21 +90,16 @@ export async function updateGuests(guests: string) {
 }
 
 export async function getRoomData(code: number) {
-    return await fetch(`/.netlify/functions/rooms/getRoomName/${code}`, {
-        method: 'GET',
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error("Network response was not okay");
-        }
-        return response.json();
-    })
-    .then(data => {
-        return data["rows"][0];
-    })
-    .catch(error => {
-        console.error(error);
-    })
+    try {
+        const response = await fetch(`/.netlify/functions/rooms/getRoom/${code}`, { method: 'GET' })
+        const result = await response.json();
+
+        return result["rows"][0];
+
+    } catch (error) {
+        console.error(`Unable to get room data: ${error}`);
+        return undefined;
+    }
 }
 
 export function generateGuestId(timeout: number, guests?: string[]) {
