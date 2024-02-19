@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router";
+import record from "../assets/juqbox_record.svg";
 
 function Home() {
     const navigate = useNavigate();
@@ -14,7 +15,7 @@ function Home() {
     }
     return (
         <div id="home" className="container row">
-            <img alt="record image" src="../assets/juqbox_record.svg" id="record" className="rotating col-md-3"/>
+            <img alt="record image" src={record} id="record" className="rotating col-md-3"/>
             <div id="title-container" className="col-md-6">
                 <h1>JuqBox</h1>
                 <p>You control the queue.</p>
