@@ -1,53 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { doesRoomExist, removeRoom } from "../server/roomRequests";
 
 function RoomHost() {
     const params = useParams();
     const navigate = useNavigate();
     const [roomExists, setRoomExists] = useState(false);
-
-    //#region Server Handlers
-    function removeRoom(roomCode:number) {
-        const body = JSON.stringify({
-            code: roomCode
-        })
-        fetch('/.netlify/functions/rooms/removeRoom', {
-            method: 'DELETE',
-            body
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Network response was not okay");
-            }
-            console.log("Room deleted successfully!");
-        })
-        .catch(error => {
-            console.error(error);
-        })
-    }
-
-    async function doesRoomExist(code:number) {
-        console.log("Checking room code...");
-
-        try {
-            const response = await fetch(`/.netlify/functions/rooms/checkRoomCode/${code}`, { method: 'GET' })
-            const result = await response.json();
-
-            if (result.rows.length > 0) {
-                return true;
-            }
-            return false;
-
-        } catch (error) {
-            console.error(`Unable to check code: ${error}`);
-            return true;
-        }
-    }
-
-    function handleRoomClose() {
-        // Delete the room from the database
-        removeRoom(Number(params.code));
-    }
 
     function handleCheckRoom() {
         doesRoomExist(Number(params.code))
@@ -58,7 +16,6 @@ function RoomHost() {
                 console.error(error);
             })
     }
-    //#endregion Server Handlers
 
     //#region Component Handlers
     function handleClickCloseRoom() {
@@ -86,8 +43,8 @@ function RoomHost() {
         handleCheckRoom();
 
         window.onbeforeunload = () => {
-            // Close the room
-            handleRoomClose();
+            // Delete the room from the database
+            removeRoom(Number(params.code));
         }
     }, [])
     

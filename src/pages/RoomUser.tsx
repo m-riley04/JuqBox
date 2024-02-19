@@ -2,6 +2,7 @@ import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Room } from "../../netlify/functions/rooms";
 import { Form } from "react-bootstrap";
+import { generateGuestId, getRoomData, updateGuests } from "../server/roomRequests";
 
 function RoomUser() {
     let params = useParams();
@@ -11,37 +12,10 @@ function RoomUser() {
     const [guestName, setGuestName] = useState("user");
     const [guestId, setGuestId] = useState("");
 
-    function getRoomData() {
-        fetch(`/.netlify/functions/rooms/getRoomName/${params.code}`, {
-            method: 'GET',
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Network response was not okay");
-            }
-            return response.json();
-        })
+    function handleGetRoomData() {
+        getRoomData(Number(params.code))
         .then(data => {
-            setRoomData(data["rows"][0]);
-        })
-        .catch(error => {
-            console.error(error);
-        })
-    }
-
-    function updateGuests(guests: string) {
-        const body = JSON.stringify({
-            guests
-        })
-        fetch('/.netlify/functions/rooms/updateRoomGuestList', {
-            method: 'UPDATE',
-            body: guests
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Network response was not okay");
-            }
-            console.log("Guests updated successfully!");
+            setRoomData(data);
         })
         .catch(error => {
             console.error(error);
@@ -49,27 +23,7 @@ function RoomUser() {
     }
 
     function handleUpdateGuests() {
-        
         updateGuests(roomData?.guest_ids);
-    }
-
-    function generateGuestId(timeout: number, guests?: string[]) {
-        function isIdTaken(id: number, guests?: string[]) {
-            console.log(`Checking guest id '${id}'...`);
-            return guests?.includes(String(id))
-        }
-
-        const min = 1_000_000;
-        const max = 9_999_999;
-        for (let i = 0; i < timeout; i++) {
-            // Check if the room code is free
-            const id = Math.floor((Math.random() * (max - min) + min));
-            if (!isIdTaken(id, guests)) {
-                return id.toString()
-            }
-        }
-        
-        throw new Error("Unable to generate id (timed out)")
     }
 
     function handleGenerateUserId() {
@@ -94,7 +48,7 @@ function RoomUser() {
     }
 
     useEffect(() => {
-        getRoomData();
+        handleGetRoomData();
 
         // Generate a user id
         handleGenerateUserId();

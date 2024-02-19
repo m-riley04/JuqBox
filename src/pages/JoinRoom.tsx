@@ -1,6 +1,7 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { doesRoomExist } from "../server/roomRequests";
 
 function JoinRoom() {
     const navigate = useNavigate();
@@ -27,24 +28,6 @@ function JoinRoom() {
 
         console.log("Attempting to join room...")
         navigate(`../join/${code}`)
-    }
-
-    async function doesRoomExist(code:number) {
-        console.log("Checking room code...");
-
-        try {
-            const response = await fetch(`/.netlify/functions/rooms/checkRoomCode/${code}`, { method: 'GET' })
-            const result = await response.json();
-
-            if (result.rows.length > 0) {
-                return true;
-            }
-            return false;
-
-        } catch (error) {
-            console.error(`Unable to check code: ${error}`);
-            return true;
-        }
     }
 
     return (

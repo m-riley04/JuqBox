@@ -1,9 +1,9 @@
-import { ChangeEvent, useState } from "react";
-import { Button, Form } from "react-bootstrap";
-import { Room } from "../../netlify/functions/rooms";
+import { ChangeEvent, FormEvent, useState } from "react";
+import { Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import LoginButton from "../components/Auth0/LoginButton";
+import { createRoom, generateRoomCode } from "../server/roomRequests";
 
 function HostRoom() {
     const navigate = useNavigate();
@@ -31,63 +31,15 @@ function HostRoom() {
     function handleCostPerQueueChange(event: ChangeEvent<HTMLInputElement>) {
         setRoomQueueCost(Number(event.target.value));
     }
+
+    function handleSubmit(event: FormEvent) {
+        event.preventDefault();
+    }
     //#endregion Component Handlers
-
-    //#region Server Handlers
-    function createRoom(room: Room) {
-
-        const body = JSON.stringify({
-            values: room
-        })
-        fetch('/.netlify/functions/rooms/addRoom', {
-            method: 'POST',
-            body
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Network response was not okay");
-            }
-            console.log("Room created successfully!");
-        })
-        .catch(error => {
-            console.error(error);
-        })
-    }
-
-    async function isCodeTaken(code:number) {
-        console.log(`Checking room code '${code}'...`);
-
-        try {
-            const response = await fetch(`/.netlify/functions/rooms/checkRoomCode/${code}`, { method: 'GET' })
-            const result = await response.json();
-
-            if (result.rows.length > 0) {
-                return true;
-            }
-            return false;
-
-        } catch (error) {
-            console.error(`Unable to check code: ${error}`);
-            return true;
-        }
-    }
-
-    async function generateCode(timeout: number=10) {
-        const min = 1_000_000;
-        const max = 9_999_999;
-        for (let i = 0; i < timeout; i++) {
-            // Check if the room code is free
-            const code = Math.floor((Math.random() * (max - min) + min));
-            if (!await isCodeTaken(code)) {
-                return code.toString()
-            }
-        }
-        return "-1";
-    }
 
     async function handleCreateRoom() {
         // Generate a room code/id
-        const code = await generateCode();
+        const code = await generateRoomCode();
 
         // Check if the code was generated has exceeded
         if (code === "-1") {
@@ -109,7 +61,6 @@ function HostRoom() {
         // Redirect to another page
         navigate(`../host/${code}`)
     }
-    //#endregion Server Handlers
 
     if (error) return (
         <>
@@ -133,7 +84,7 @@ function HostRoom() {
     if (isAuthenticated) return (
         <>
             <div className="container">
-                <Form>
+                <Form onSubmit={handleSubmit}>
                     <Form.Group controlId="roomName">
                         <Form.Label>Room Name</Form.Label>
                         <Form.Control 
