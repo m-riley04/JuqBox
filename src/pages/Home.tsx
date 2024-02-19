@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router";
-import record from "../assets/juqbox_record.svg";
+import record from "../../assets/juqbox_record.svg";
 
 function Home() {
     const navigate = useNavigate();
