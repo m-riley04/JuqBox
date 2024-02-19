@@ -63,6 +63,14 @@ button {
     transition-duration: $fade-duration;
 }
 
+.buttonRow {
+    margin: auto;
+}
+
+.buttonRow button {
+    margin-right: 10px;
+}
+
 #pages {
     margin: 20px;
 }
