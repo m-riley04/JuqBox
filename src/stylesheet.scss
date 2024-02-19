@@ -75,6 +75,42 @@ button {
     margin: 20px;
 }
 
+#home {
+    margin: auto;
+    padding: 20px;
+}
+
+#home #title-container {
+    display: block;
+    margin: auto;
+}
+
+#home #title-container h1 {
+    font-size: 20vh;
+}
+
+// Weird (cool) behavior with vinyl record wobbling. Only started when adding a Bootstrap "row" wrapper
+#home #record {
+    width: 60vh;
+    height: 60vh;
+}
+
+#home #title-container p {
+    font-size: 5vh;
+}
+
+#home #title-container .buttonRow {
+    height: 8vh;
+}
+
+#home #title-container .buttonRow button {
+    width: 35%;
+    height: 100%;
+    font-size: 100%;
+    text-align: center;
+    align-items: center;
+}
+
 #form-join {
     color: $text-dark;
     width: 50%;
