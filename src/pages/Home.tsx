@@ -13,13 +13,17 @@ function Home() {
         navigate("join");
     }
     return (
-        <>
-            <img alt="record image" src="../assets/juqbox_record.svg" id="record" className="rotating"/>
-            <h1>JuqBox</h1>
-            <p>You control the queue.</p>
-            <button onClick={handleClickedHost}>Host</button>
-            <button onClick={handleClickedJoin}>Join</button>
-        </>
+        <div id="home" className="container row">
+            <img alt="record image" src="../assets/juqbox_record.svg" id="record" className="rotating col-md-3"/>
+            <div id="title-container" className="col-md-6">
+                <h1>JuqBox</h1>
+                <p>You control the queue.</p>
+                <div className="buttonRow">
+                    <button onClick={handleClickedHost}>Host</button>
+                    <button onClick={handleClickedJoin}>Join</button>
+                </div>
+            </div>
+        </div>
     );
 }
 
