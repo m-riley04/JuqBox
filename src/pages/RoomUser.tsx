@@ -5,7 +5,7 @@ import { Form } from "react-bootstrap";
 import { generateGuestId, getRoomData, updateGuests } from "../server/roomRequests";
 
 function RoomUser() {
-    let params = useParams();
+    const params = useParams();
 
     const [roomData, setRoomData] = useState<Room>();
     const [guestNameSelected, setGuestNameSelected] = useState(false);
