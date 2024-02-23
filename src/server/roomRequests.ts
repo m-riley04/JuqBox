@@ -70,7 +70,7 @@ export async function generateRoomCode(timeout: number=10) {
     return "-1";
 }
 
-export async function updateGuests(guests: string) {
+export async function updateRoomGuests(guests: string) {
     const body : string = JSON.stringify({
         guests
     })

@@ -2,7 +2,7 @@ import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Room } from "../../netlify/functions/rooms";
 import { Form } from "react-bootstrap";
-import { generateGuestId, getRoomData, updateGuests } from "../server/roomRequests";
+import { generateGuestId, getRoomData, updateRoomGuests } from "../server/roomRequests";
 
 function RoomUser() {
     const params = useParams();
@@ -28,7 +28,7 @@ function RoomUser() {
             throw new Error("Error updating guests: room data is empty");
         }
 
-        updateGuests(roomData.guest_ids)
+        updateRoomGuests(roomData.guest_ids)
             .then(status => {
 
             });
