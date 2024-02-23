@@ -80,8 +80,10 @@ function RoomUser() {
             <h1>Welcome to '{roomData?.name}', {guestName}!</h1>
             <p>You can <a>share the code</a> with your friends!</p>
 
+            <p>Currently Playing: [song name]</p>
+
             <h2>Select the songs you'd like to queue:</h2>
-            <p>(to be implemented)</p>
+            <p>[to be implemented]</p>
         </>
     );
 }
