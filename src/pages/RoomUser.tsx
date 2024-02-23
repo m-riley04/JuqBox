@@ -23,7 +23,15 @@ function RoomUser() {
     }
 
     function handleUpdateGuests() {
-        updateGuests(roomData?.guest_ids);
+        if (!roomData) {
+            // Catch if the room data is empty
+            throw new Error("Error updating guests: room data is empty");
+        }
+
+        updateGuests(roomData.guest_ids)
+            .then(status => {
+
+            });
     }
 
     function handleGenerateUserId() {
