@@ -111,9 +111,6 @@ function HostRoom() {
                     </Form.Group>
                     <button onClick={handleCreateRoom}>Create Room</button>
                 </Form>
-                <button onClick={() => {
-                    console.log(user);
-                }}>Show User Data</button>
             </div>
         </>
     );
