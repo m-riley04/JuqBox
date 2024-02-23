@@ -26,6 +26,25 @@ export interface Room {
     queue_cost: number
 }
 
+/**
+ * Represents a guest of a room
+ * @key the name of the JSON entry
+ * @value the value of the JSON entry
+ * 
+ * @param {string} id
+ * @param {string} name
+ * @param {number} queues_total
+ * @param {string[]} queues a list of all the guest's previous and current queues
+ * @param {string} max_queues_per_guest
+ * @param {string} queue_cost
+ */
+export interface Guest {
+    id: string;
+    name: string;
+    queues_total: number;
+    queues: string[]; 
+}
+
 // Function to get count of all rooms
 async function getRoomCount() {
     const count = await connection.execute(`SELECT COUNT(*) FROM rooms`);
