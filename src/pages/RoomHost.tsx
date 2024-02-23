@@ -26,7 +26,7 @@ function RoomHost() {
         .then(data => {
             // Check if the user owns this room
             console.log("Checking if the user owns this room...");
-            if (user?.nickname === data.owner) {
+            if (user?.sub === data.owner) {
                 setUserOwnsRoom(true);
             }
         })
