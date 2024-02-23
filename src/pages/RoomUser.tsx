@@ -72,8 +72,6 @@ function RoomUser() {
                 </Form.Group>
                 <button>Enter Room</button>
             </Form>
-
-            <p><a>Create an account</a> to never have to see this page again</p>
         </>
     );
 
