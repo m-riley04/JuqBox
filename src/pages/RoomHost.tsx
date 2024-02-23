@@ -3,6 +3,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import { doesRoomExist, getRoomData, removeRoom } from "../server/roomRequests";
 import { useAuth0 } from "@auth0/auth0-react";
 
+interface Guest {
+    id: string;
+    name: string;
+    queues_total: number;
+    queues: string[]; 
+}
+
 function RoomHost() {
     const params = useParams();
     const navigate = useNavigate();
