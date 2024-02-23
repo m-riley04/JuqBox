@@ -83,6 +83,7 @@ export async function updateGuests(guests: string) {
             throw new Error("Network response was not okay");
         }
         console.log("Guests updated successfully!");
+        return 200;
     })
     .catch(error => {
         console.error(error);
