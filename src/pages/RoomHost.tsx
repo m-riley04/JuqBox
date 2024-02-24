@@ -104,7 +104,6 @@ function RoomHost() {
             {guests.map((guest, index) => <p key={index}>{index+1}. {guest.name}</p>)}
             <button onClick={handleClickCloseRoom}>Close Room</button>
             <button onClick={handleClickSettings}>Settings</button>
-            <button onClick={handleClickManageUsers}>ManageUsers</button>
         </>
     );
 
