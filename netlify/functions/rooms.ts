@@ -106,6 +106,12 @@ async function getRoomOwner(code: string) {
     return JSON.stringify(owner);
 }
 
+async function getRoomGuests(code: string) {
+    const query = "SELECT guests FROM rooms WHERE code = ?";
+    const guests = await connection.execute(query, [code]);
+    return JSON.stringify(guests);
+}
+
 // Function to check a room's code
 async function checkRoomCode(code: string) {
     const query = "SELECT * FROM rooms WHERE code = ?";
@@ -138,6 +144,10 @@ export const handler: Handler = async (event: HandlerEvent) => {
         else if (httpMethod === "GET" && path.includes("/getRoom")) {
             const [, , , , , code] = path.split("/");
             return { statusCode: 200, body: await getRoom(code) };
+        }
+        else if (httpMethod === "GET" && path.includes("/getRoomGuests")) {
+            const [, , , , , code] = path.split("/");
+            return { statusCode: 200, body: await getRoomGuests(code) };
         }
         else if (httpMethod === "GET" && path.includes("/getRoomName")) {
             const [, , , , , code] = path.split("/");
