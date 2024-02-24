@@ -23,7 +23,8 @@ export interface Room {
     max_guests: number,
     guests: string,
     max_queues_per_guest: number,
-    queue_cost: number
+    queue_cost: number,
+    creation_date: Date
 }
 
 /**
