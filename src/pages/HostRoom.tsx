@@ -50,12 +50,13 @@ function HostRoom() {
         createRoom({
             id: code,
             code: code,
-            name: roomName,
+            name: `${user?.nickname}'s Room` || roomName,
             owner: user?.sub || "",
             max_guests: roomMaxGuests,
-            guest_ids: "{}",
+            guests: "[]",
             max_queues_per_guest: roomMaxCoexistentQueues,
-            queue_cost: roomQueueCost
+            queue_cost: roomQueueCost,
+            creation_date: new Date()
         })
 
         // Redirect to another page
