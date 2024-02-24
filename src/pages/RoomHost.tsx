@@ -69,8 +69,32 @@ function RoomHost() {
             // Delete the room from the database
             removeRoom(Number(params.code));
         }
+    }, []);
+
+
+    const REFRESH_MS = 10000;
+    useEffect(() => {
+        const interval = setInterval(() => {
+            // Check if the room exists
+            if (!roomExists) return;
+
+            // Get the guest list
+            console.log("Refreshing the guest list...");
+            getRoomData(Number(params.code))
+                .then(data => {
+                    if (!data.guests) {
+                        setGuests([]);
+                        return;
+                    }
+                    console.log(data.guests);
+                    //setGuests(data.guests);
+                });
+        }, REFRESH_MS);
+
+        return () => clearInterval(interval);
     }, [])
     
+
     // Check if the room exists
     if (roomExists && userOwnsRoom) return (
         <>
