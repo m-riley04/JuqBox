@@ -11,11 +11,13 @@ function RoomUser() {
     const [guestNameSelected, setGuestNameSelected] = useState(false);
     const [guestName, setGuestName] = useState("user");
     const [guestId, setGuestId] = useState("");
+    const [guests, setGuests] = useState([]);
 
     function handleGetRoomData() {
         getRoomData(Number(params.code))
         .then(data => {
             setRoomData(data);
+            if (data.guests) setGuests(JSON.parse(data.guests)); console.log(JSON.parse(data.guests));
         })
         .catch(error => {
             console.error(error);
@@ -28,15 +30,13 @@ function RoomUser() {
             throw new Error("Error updating guests: room data is empty");
         }
 
-        updateRoomGuests(roomData.guest_ids)
-            .then(status => {
-
-            });
+        console.log(JSON.stringify(guests));
+        updateRoomGuests(JSON.stringify(guests));
     }
 
     function handleGenerateUserId() {
         try {
-            const id = generateGuestId(10, roomData?.guest_ids);
+            const id = generateGuestId(10, roomData?.guests);
             setGuestId(id);
         } catch (e) {
             console.error(e);
@@ -53,6 +53,8 @@ function RoomUser() {
         // TODO - check if guest name is valid
 
         setGuestNameSelected(true);
+
+        handleUpdateGuests();
     }
 
     useEffect(() => {
