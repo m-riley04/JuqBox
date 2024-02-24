@@ -92,13 +92,25 @@ export async function updateRoomGuests(guests: string) {
 
 export async function getRoomData(code: number) {
     try {
-        const response = await fetch(`/.netlify/functions/rooms/getRoom/${code}`, { method: 'GET' })
+        const response = await fetch(`/.netlify/functions/rooms/getRoom/${code}`, { method: 'GET' });
         const result = await response.json();
 
         return result["rows"][0];
 
     } catch (error) {
         console.error(`Unable to get room data: ${error}`);
+        return undefined;
+    }
+}
+
+export async function getRoomGuests(code: number) {
+    try {
+        const response = await fetch(`/.netlify/functions/rooms/getRoomGuests/${code}`, { method: 'GET' });
+        const result = await response.json();
+
+        return result
+    } catch (error) {
+        console.error(`Unable to get room guests: ${error}`);
         return undefined;
     }
 }
