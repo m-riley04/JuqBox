@@ -11,7 +11,7 @@ import connection from "@netlify/planetscale";
  * @param {string} name
  * @param {string} owner
  * @param {string} max_guests
- * @param {string} guest_ids a JSON string containing all guest ids and data
+ * @param {string} guests a JSON string containing all guest ids and data
  * @param {string} max_queues_per_guest
  * @param {string} queue_cost
  */
@@ -21,7 +21,7 @@ export interface Room {
     name: string,
     owner: string,
     max_guests: number,
-    guest_ids: string,
+    guests: string,
     max_queues_per_guest: number,
     queue_cost: number
 }
@@ -74,7 +74,7 @@ async function removeRoom(body: string) {
 // Update a room's guest list
 async function updateRoomGuestList(body: string) {
     const { guests } = JSON.parse(body);
-    const query = "UPDATE rooms SET guest_ids = ? ";
+    const query = "UPDATE rooms SET guests = ? ";
     await connection.execute(query, [guests]);
     return "Room guest list updated successfully";
 }
