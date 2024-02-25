@@ -1,4 +1,4 @@
-import { Room } from "../../netlify/functions/rooms";
+import { Guest, Room } from "../../netlify/functions/rooms";
 
 export async function createRoom(room: Room) {
 
@@ -70,12 +70,13 @@ export async function generateRoomCode(timeout: number=10) {
     return "-1";
 }
 
-export async function updateRoomGuests(guests: string) {
+export async function updateRoomGuests(guests: object, code: number) {
     const body : string = JSON.stringify({
-        guests
+        guests,
+        code
     })
     return await fetch('/.netlify/functions/rooms/updateRoomGuestList', {
-        method: 'UPDATE',
+        method: "PUT",
         body: body
     })
     .then(response => {
@@ -115,10 +116,13 @@ export async function getRoomGuests(code: number) {
     }
 }
 
-export function generateGuestId(timeout: number, guests?: string[]) {
-    function isIdTaken(id: number, guests?: string[]) {
+export function generateGuestId(timeout: number, guests?: Guest[]) {
+    function isIdTaken(id: number, guests?: Guest[]) {
         console.log(`Checking guest id '${id}'...`);
-        return guests?.includes(String(id))
+
+        return guests?.forEach((guest, index) => {
+            if (guest.includes(String(id))) return true;
+        }); 
     }
 
     const min = 1_000_000;
