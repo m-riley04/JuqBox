@@ -49,10 +49,6 @@ function RoomHost() {
 
     }
 
-    function handleClickManageUsers() {
-
-    }
-
     function handleClickHost() {
         navigate("../host");
     }
@@ -86,7 +82,11 @@ function RoomHost() {
                         setGuests([]);
                         return;
                     }
-                    console.log(data.guests);
+                    try {
+                        setGuests(data.guests.guests);
+                    } catch (e) {
+                        console.error(e);
+                    }
                     //setGuests(data.guests);
                 });
         }, REFRESH_MS);
