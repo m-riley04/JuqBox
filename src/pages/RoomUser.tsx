@@ -1,6 +1,6 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Room } from "../../netlify/functions/rooms";
+import { Guest, Room } from "../../netlify/functions/rooms";
 import { Form } from "react-bootstrap";
 import { generateGuestId, getRoomData, updateRoomGuests } from "../server/roomRequests";
 
@@ -11,13 +11,13 @@ function RoomUser() {
     const [guestNameSelected, setGuestNameSelected] = useState(false);
     const [guestName, setGuestName] = useState("user");
     const [guestId, setGuestId] = useState("");
-    const [guests, setGuests] = useState([]);
+    const [guests, setGuests] = useState<Guest[]>([]);
 
     function handleGetRoomData() {
         getRoomData(Number(params.code))
         .then(data => {
             setRoomData(data);
-            if (data.guests) setGuests(JSON.parse(data.guests)); console.log(JSON.parse(data.guests));
+            if (data.guests) setGuests(data.guests.guests);
         })
         .catch(error => {
             console.error(error);
@@ -29,14 +29,21 @@ function RoomUser() {
             // Catch if the room data is empty
             throw new Error("Error updating guests: room data is empty");
         }
+        // Append the current new guest
+        const guest : Guest = {
+            id: guestId,
+            name: guestName,
+            queues_total: 0,
+            queues: []
+        };
+        guests.push(guest);
 
-        console.log(JSON.stringify(guests));
-        updateRoomGuests(JSON.stringify(guests));
+        updateRoomGuests({guests: guests}, Number(params.code));
     }
 
     function handleGenerateUserId() {
         try {
-            const id = generateGuestId(10, roomData?.guests);
+            const id = generateGuestId(10, guests);
             setGuestId(id);
         } catch (e) {
             console.error(e);
