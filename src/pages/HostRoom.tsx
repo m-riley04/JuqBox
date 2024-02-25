@@ -53,10 +53,10 @@ function HostRoom() {
             name: `${user?.nickname}'s Room` || roomName,
             owner: user?.sub || "",
             max_guests: roomMaxGuests,
-            guests: "[]",
+            guests: JSON.stringify({ guests: []}),
             max_queues_per_guest: roomMaxCoexistentQueues,
             queue_cost: roomQueueCost,
-            creation_date: new Date()
+            creation_date: undefined
         })
 
         // Redirect to another page
