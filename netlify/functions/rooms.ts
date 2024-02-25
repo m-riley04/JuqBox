@@ -14,6 +14,7 @@ import connection from "@netlify/planetscale";
  * @param {string} guests a JSON string containing all guest ids and data
  * @param {string} max_queues_per_guest
  * @param {string} queue_cost
+ * @param {string} creation_date
  */
 export interface Room {
     id: string,
@@ -55,7 +56,7 @@ async function getRoomCount() {
 // Function to add a room
 async function addRoom(body: string) {
     const { values } = JSON.parse(body);
-    const VALID_HEADERS = ["id", "code", "name", "owner", "max_guests", "max_queues_per_guest", "queue_cost"];
+    const VALID_HEADERS = ["id", "code", "name", "owner", "max_guests", "max_queues_per_guest", "guests", "queue_cost", "creation_date"];
     const placeholders = VALID_HEADERS.filter(key => Object.keys(values).includes(key)).map(() => '?').join(', ');
     const headers = VALID_HEADERS.filter(key => Object.keys(values).includes(key));
     const vals = headers.map(header => values[header]);
@@ -74,10 +75,10 @@ async function removeRoom(body: string) {
 
 // Update a room's guest list
 async function updateRoomGuestList(body: string) {
-    const { guests } = JSON.parse(body);
-    const query = "UPDATE rooms SET guests = ? ";
-    await connection.execute(query, [guests]);
-    return "Room guest list updated successfully";
+    const { guests, code } = JSON.parse(body);
+    const query = "UPDATE rooms SET guests = ? WHERE code = ?";
+    await connection.execute(query, [JSON.stringify(guests), code]);
+    return "Room guests updated successfully";
 }
 
 // Function to get all rooms
@@ -132,7 +133,7 @@ export const handler: Handler = async (event: HandlerEvent) => {
             if (!body) throw new Error("'body' is required");
             return { statusCode: 200, body: await removeRoom(body) };
         }
-        else if (httpMethod === "UPDATE" && path.includes("/updateRoomGuestList")) {
+        else if (httpMethod === "PUT" && path.includes("/updateRoomGuestList")) {
             if (!body) throw new Error("'body' is required");
             return { statusCode: 200, body: await updateRoomGuestList(body) };
         }
