@@ -7,7 +7,6 @@ import Account from "./pages/Account";
 import Login from "./pages/Login";
 import NavigationBar from "./components/NavigationBar/NavigationBar";
 import "./stylesheet.scss";
-import Admin from "./pages/Admin";
 import SpotifyResponse from "./pages/SpotifyResponse";
 import RoomHost from "./pages/RoomHost";
 import RoomUser from "./pages/RoomUser";
