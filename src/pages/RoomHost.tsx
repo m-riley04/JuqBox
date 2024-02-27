@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { doesRoomExist, getRoomData, removeRoom } from "../server/roomRequests";
 import { useAuth0 } from "@auth0/auth0-react";
+import { Guest } from "../../netlify/functions/rooms";
 
 function RoomHost() {
     const params = useParams();
     const navigate = useNavigate();
     const [roomExists, setRoomExists] = useState(false);
     const [userOwnsRoom, setUserOwnsRoom] = useState(false);
+    const [guests, setGuests] = useState<Guest[]>([]);
 
     const { user } = useAuth0();
 
@@ -26,7 +28,7 @@ function RoomHost() {
         .then(data => {
             // Check if the user owns this room
             console.log("Checking if the user owns this room...");
-            if (user?.nickname === data.owner) {
+            if (user?.sub === data.owner) {
                 setUserOwnsRoom(true);
             }
         })
@@ -47,10 +49,6 @@ function RoomHost() {
 
     }
 
-    function handleClickManageUsers() {
-
-    }
-
     function handleClickHost() {
         navigate("../host");
     }
@@ -67,16 +65,45 @@ function RoomHost() {
             // Delete the room from the database
             removeRoom(Number(params.code));
         }
+    }, []);
+
+
+    const REFRESH_MS = 10000;
+    useEffect(() => {
+        const interval = setInterval(() => {
+            // Check if the room exists
+            if (!roomExists) return;
+
+            // Get the guest list
+            console.log("Refreshing the guest list...");
+            getRoomData(Number(params.code))
+                .then(data => {
+                    if (!data.guests) {
+                        setGuests([]);
+                        return;
+                    }
+                    try {
+                        setGuests(data.guests.guests);
+                    } catch (e) {
+                        console.error(e);
+                    }
+                    //setGuests(data.guests);
+                });
+        }, REFRESH_MS);
+
+        return () => clearInterval(interval);
     }, [])
     
+
     // Check if the room exists
     if (roomExists && userOwnsRoom) return (
         <>
             <h1>Code: {params.code}</h1>
             <p>Join the queue now at <a href="juqbox.space/join" target="_blank" rel="noreferrer">juqbox.space/join</a></p>
+            <p>Current Guests:</p>
+            {guests.map((guest, index) => <p key={index}>{index+1}. {guest.name}</p>)}
             <button onClick={handleClickCloseRoom}>Close Room</button>
             <button onClick={handleClickSettings}>Settings</button>
-            <button onClick={handleClickManageUsers}>ManageUsers</button>
         </>
     );
 

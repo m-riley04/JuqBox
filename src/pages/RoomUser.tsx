@@ -1,8 +1,8 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Room } from "../../netlify/functions/rooms";
+import { Guest, Room } from "../../netlify/functions/rooms";
 import { Form } from "react-bootstrap";
-import { generateGuestId, getRoomData, updateGuests } from "../server/roomRequests";
+import { generateGuestId, getRoomData, updateRoomGuests } from "../server/roomRequests";
 
 function RoomUser() {
     const params = useParams();
@@ -11,11 +11,13 @@ function RoomUser() {
     const [guestNameSelected, setGuestNameSelected] = useState(false);
     const [guestName, setGuestName] = useState("user");
     const [guestId, setGuestId] = useState("");
+    const [guests, setGuests] = useState<Guest[]>([]);
 
     function handleGetRoomData() {
         getRoomData(Number(params.code))
         .then(data => {
             setRoomData(data);
+            if (data.guests) setGuests(data.guests.guests);
         })
         .catch(error => {
             console.error(error);
@@ -23,12 +25,25 @@ function RoomUser() {
     }
 
     function handleUpdateGuests() {
-        updateGuests(roomData?.guest_ids);
+        if (!roomData) {
+            // Catch if the room data is empty
+            throw new Error("Error updating guests: room data is empty");
+        }
+        // Append the current new guest
+        const guest : Guest = {
+            id: guestId,
+            name: guestName,
+            queues_total: 0,
+            queues: []
+        };
+        guests.push(guest);
+
+        updateRoomGuests({guests: guests}, Number(params.code));
     }
 
     function handleGenerateUserId() {
         try {
-            const id = generateGuestId(10, roomData?.guest_ids);
+            const id = generateGuestId(10, guests);
             setGuestId(id);
         } catch (e) {
             console.error(e);
@@ -45,6 +60,8 @@ function RoomUser() {
         // TODO - check if guest name is valid
 
         setGuestNameSelected(true);
+
+        handleUpdateGuests();
     }
 
     useEffect(() => {
@@ -64,8 +81,6 @@ function RoomUser() {
                 </Form.Group>
                 <button>Enter Room</button>
             </Form>
-
-            <p><a>Create an account</a> to never have to see this page again</p>
         </>
     );
 
@@ -74,8 +89,10 @@ function RoomUser() {
             <h1>Welcome to '{roomData?.name}', {guestName}!</h1>
             <p>You can <a>share the code</a> with your friends!</p>
 
+            <p>Currently Playing: [song name]</p>
+
             <h2>Select the songs you'd like to queue:</h2>
-            <p>(to be implemented)</p>
+            <p>[to be implemented]</p>
         </>
     );
 }

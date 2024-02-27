@@ -11,9 +11,10 @@ import connection from "@netlify/planetscale";
  * @param {string} name
  * @param {string} owner
  * @param {string} max_guests
- * @param {string} guest_ids a JSON string containing all guest ids and data
+ * @param {string} guests a JSON string containing all guest ids and data
  * @param {string} max_queues_per_guest
  * @param {string} queue_cost
+ * @param {string} creation_date
  */
 export interface Room {
     id: string,
@@ -21,9 +22,29 @@ export interface Room {
     name: string,
     owner: string,
     max_guests: number,
-    guest_ids: string,
+    guests: string,
     max_queues_per_guest: number,
-    queue_cost: number
+    queue_cost: number,
+    creation_date: Date
+}
+
+/**
+ * Represents a guest of a room
+ * @key the name of the JSON entry
+ * @value the value of the JSON entry
+ * 
+ * @param {string} id
+ * @param {string} name
+ * @param {number} queues_total
+ * @param {string[]} queues a list of all the guest's previous and current queues
+ * @param {string} max_queues_per_guest
+ * @param {string} queue_cost
+ */
+export interface Guest {
+    id: string;
+    name: string;
+    queues_total: number;
+    queues: string[]; 
 }
 
 // Function to get count of all rooms
@@ -35,7 +56,7 @@ async function getRoomCount() {
 // Function to add a room
 async function addRoom(body: string) {
     const { values } = JSON.parse(body);
-    const VALID_HEADERS = ["id", "code", "name", "owner", "max_guests", "max_queues_per_guest", "queue_cost"];
+    const VALID_HEADERS = ["id", "code", "name", "owner", "max_guests", "max_queues_per_guest", "guests", "queue_cost", "creation_date"];
     const placeholders = VALID_HEADERS.filter(key => Object.keys(values).includes(key)).map(() => '?').join(', ');
     const headers = VALID_HEADERS.filter(key => Object.keys(values).includes(key));
     const vals = headers.map(header => values[header]);
@@ -54,10 +75,10 @@ async function removeRoom(body: string) {
 
 // Update a room's guest list
 async function updateRoomGuestList(body: string) {
-    const { guests } = JSON.parse(body);
-    const query = "UPDATE rooms SET guest_ids = ? ";
-    await connection.execute(query, [guests]);
-    return "Room guest list updated successfully";
+    const { guests, code } = JSON.parse(body);
+    const query = "UPDATE rooms SET guests = ? WHERE code = ?";
+    await connection.execute(query, [JSON.stringify(guests), code]);
+    return "Room guests updated successfully";
 }
 
 // Function to get all rooms
@@ -87,6 +108,12 @@ async function getRoomOwner(code: string) {
     return JSON.stringify(owner);
 }
 
+async function getRoomGuests(code: string) {
+    const query = "SELECT guests FROM rooms WHERE code = ?";
+    const guests = await connection.execute(query, [code]);
+    return JSON.stringify(guests);
+}
+
 // Function to check a room's code
 async function checkRoomCode(code: string) {
     const query = "SELECT * FROM rooms WHERE code = ?";
@@ -106,7 +133,7 @@ export const handler: Handler = async (event: HandlerEvent) => {
             if (!body) throw new Error("'body' is required");
             return { statusCode: 200, body: await removeRoom(body) };
         }
-        else if (httpMethod === "UPDATE" && path.includes("/updateRoomGuestList")) {
+        else if (httpMethod === "PUT" && path.includes("/updateRoomGuestList")) {
             if (!body) throw new Error("'body' is required");
             return { statusCode: 200, body: await updateRoomGuestList(body) };
         }
@@ -119,6 +146,10 @@ export const handler: Handler = async (event: HandlerEvent) => {
         else if (httpMethod === "GET" && path.includes("/getRoom")) {
             const [, , , , , code] = path.split("/");
             return { statusCode: 200, body: await getRoom(code) };
+        }
+        else if (httpMethod === "GET" && path.includes("/getRoomGuests")) {
+            const [, , , , , code] = path.split("/");
+            return { statusCode: 200, body: await getRoomGuests(code) };
         }
         else if (httpMethod === "GET" && path.includes("/getRoomName")) {
             const [, , , , , code] = path.split("/");

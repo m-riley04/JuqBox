@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 
+/**
+ * @deprecated
+ */
 function Admin() {
     const [passwordAccepted, setPasswordAccepted] = useState(false);
 

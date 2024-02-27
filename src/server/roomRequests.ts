@@ -1,4 +1,4 @@
-import { Room } from "../../netlify/functions/rooms";
+import { Guest, Room } from "../../netlify/functions/rooms";
 
 export async function createRoom(room: Room) {
 
@@ -70,12 +70,13 @@ export async function generateRoomCode(timeout: number=10) {
     return "-1";
 }
 
-export async function updateGuests(guests: string) {
+export async function updateRoomGuests(guests: object, code: number) {
     const body : string = JSON.stringify({
-        guests
+        guests,
+        code
     })
     return await fetch('/.netlify/functions/rooms/updateRoomGuestList', {
-        method: 'UPDATE',
+        method: "PUT",
         body: body
     })
     .then(response => {
@@ -83,6 +84,7 @@ export async function updateGuests(guests: string) {
             throw new Error("Network response was not okay");
         }
         console.log("Guests updated successfully!");
+        return 200;
     })
     .catch(error => {
         console.error(error);
@@ -91,7 +93,7 @@ export async function updateGuests(guests: string) {
 
 export async function getRoomData(code: number) {
     try {
-        const response = await fetch(`/.netlify/functions/rooms/getRoom/${code}`, { method: 'GET' })
+        const response = await fetch(`/.netlify/functions/rooms/getRoom/${code}`, { method: 'GET' });
         const result = await response.json();
 
         return result["rows"][0];
@@ -102,10 +104,25 @@ export async function getRoomData(code: number) {
     }
 }
 
-export function generateGuestId(timeout: number, guests?: string[]) {
-    function isIdTaken(id: number, guests?: string[]) {
+export async function getRoomGuests(code: number) {
+    try {
+        const response = await fetch(`/.netlify/functions/rooms/getRoomGuests/${code}`, { method: 'GET' });
+        const result = await response.json();
+
+        return result
+    } catch (error) {
+        console.error(`Unable to get room guests: ${error}`);
+        return undefined;
+    }
+}
+
+export function generateGuestId(timeout: number, guests?: Guest[]) {
+    function isIdTaken(id: number, guests?: Guest[]) {
         console.log(`Checking guest id '${id}'...`);
-        return guests?.includes(String(id))
+
+        return guests?.forEach((guest, index) => {
+            if (guest.includes(String(id))) return true;
+        }); 
     }
 
     const min = 1_000_000;

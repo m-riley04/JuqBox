@@ -50,12 +50,13 @@ function HostRoom() {
         createRoom({
             id: code,
             code: code,
-            name: roomName,
+            name: `${user?.nickname}'s Room` || roomName,
             owner: user?.sub || "",
             max_guests: roomMaxGuests,
-            guest_ids: "{}",
+            guests: JSON.stringify({ guests: []}),
             max_queues_per_guest: roomMaxCoexistentQueues,
-            queue_cost: roomQueueCost
+            queue_cost: roomQueueCost,
+            creation_date: undefined
         })
 
         // Redirect to another page
@@ -111,9 +112,6 @@ function HostRoom() {
                     </Form.Group>
                     <button onClick={handleCreateRoom}>Create Room</button>
                 </Form>
-                <button onClick={() => {
-                    console.log(user);
-                }}>Show User Data</button>
             </div>
         </>
     );

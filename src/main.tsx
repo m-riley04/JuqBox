@@ -13,6 +13,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         audience: import.meta.env.VITE_AUTH0_AUDIENCE,
         scope: "openid profile admin"
       }}
+      useRefreshTokens={true}
     >
       <App />
     </Auth0Provider>
