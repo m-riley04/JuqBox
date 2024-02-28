@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { doesRoomExist, getRoomData, removeRoom } from "../server/roomRequests";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Guest } from "../../netlify/functions/rooms";
+import QRCode from "react-qr-code";
 
 function RoomHost() {
     const params = useParams();
@@ -102,6 +103,9 @@ function RoomHost() {
             <p>Join the queue now at <a href="juqbox.space/join" target="_blank" rel="noreferrer">juqbox.space/join</a></p>
             <p>Current Guests:</p>
             {guests.map((guest, index) => <p key={index}>{index+1}. {guest.name}</p>)}
+            <QRCode
+                value={`${window.location.hostname}/join/${params.code}`}
+            ></QRCode>
             <button onClick={handleClickCloseRoom}>Close Room</button>
             <button onClick={handleClickSettings}>Settings</button>
         </>
