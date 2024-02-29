@@ -100,11 +100,11 @@ function RoomHost() {
     if (roomExists && userOwnsRoom) return (
         <>
             <h1>Code: {params.code}</h1>
-            <p>Join the queue now at <a href="juqbox.space/join" target="_blank" rel="noreferrer">juqbox.space/join</a></p>
+            <p>Join the queue now at <a href="www.juqbox.space/join" target="_blank" rel="noreferrer">juqbox.space/join</a></p>
             <p>Current Guests:</p>
             {guests.map((guest, index) => <p key={index}>{index+1}. {guest.name}</p>)}
             <QRCode
-                value={`${window.location.hostname}/join/${params.code}`}
+                value={`${window.location.origin}/join/${params.code}`}
             ></QRCode>
             <button onClick={handleClickCloseRoom}>Close Room</button>
             <button onClick={handleClickSettings}>Settings</button>
