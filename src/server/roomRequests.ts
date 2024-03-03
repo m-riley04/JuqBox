@@ -121,7 +121,7 @@ export function generateGuestId(timeout: number, guests?: Guest[]) {
         console.log(`Checking guest id '${id}'...`);
 
         return guests?.forEach((guest, index) => {
-            if (guest.includes(String(id))) return true;
+            if (guest.id === id) return true;
         }); 
     }
 
