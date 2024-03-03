@@ -2,6 +2,19 @@ import type { Handler, HandlerEvent } from "@netlify/functions";
 import connection from "@netlify/planetscale";
 
 /**
+ * Represents a queue from a guest
+ * 
+ * @param {string} song
+ * @param {string} artist
+ * @param {Date} date_queued
+ */
+export interface Queue {
+    song: string;
+    artist: string;
+    date_queued: Date;
+}
+
+/**
  * Interface for the room table's rows
  * @key the title of the column
  * @value the value of the column
