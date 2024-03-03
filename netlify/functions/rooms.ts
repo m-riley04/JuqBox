@@ -15,6 +15,30 @@ export interface Queue {
 }
 
 /**
+ * Represents a guest of a room
+ * 
+ * @param {number} id
+ * @param {string} name
+ * @param {number} queues_total
+ * @param {Queue[]} queues a list of all the guest's previous and current queues
+ */
+export interface Guest {
+    id: number;
+    name: string;
+    queues_total: number;
+    queues: Queue[]; 
+}
+
+/**
+ * Represents the "guest" tag of a room
+ * 
+ * @param {Guest[]} guests the array of guests
+ */
+export interface RoomGuestsJSON {
+    guests: Guest[]
+}
+
+/**
  * Interface for the room table's rows
  * @key the title of the column
  * @value the value of the column
