@@ -13,17 +13,6 @@ function RoomUser() {
     const [guestId, setGuestId] = useState("");
     const [guests, setGuests] = useState<Guest[]>([]);
 
-    function handleGetRoomData() {
-        getRoomData(Number(params.code))
-        .then(data => {
-            setRoomData(data);
-            if (data.guests) setGuests(data.guests.guests);
-        })
-        .catch(error => {
-            console.error(error);
-        })
-    }
-
     function handleUpdateGuests() {
         if (!roomData) {
             // Catch if the room data is empty
@@ -41,15 +30,6 @@ function RoomUser() {
         updateRoomGuests({guests: guests}, Number(params.code));
     }
 
-    function handleGenerateUserId() {
-        try {
-            const id = generateGuestId(10, guests);
-            setGuestId(id);
-        } catch (e) {
-            console.error(e);
-        }
-    }
-
     function handleGuestNameChange(event: ChangeEvent<HTMLInputElement>) {
         setGuestName(event.target.value);
     }
@@ -65,11 +45,42 @@ function RoomUser() {
     }
 
     useEffect(() => {
+        function handleGenerateUserId() {
+            try {
+                const id = generateGuestId(10, guests);
+                setGuestId(id);
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        function handleGetRoomData() {
+            getRoomData(Number(params.code))
+            .then((data : Room) => {
+                setRoomData(data);
+                if (data) {
+                    if (data.guests) { 
+                        const guestJson = data.guests;
+                        setGuests(guestJson.guests); 
+                    }
+                }
+            })
+            .catch(error => {
+                console.error(error);
+            })
+        }
+
         handleGetRoomData();
 
         // Generate a user id
         handleGenerateUserId();
     }, [])
+
+    if (!roomData) return (
+        <>
+            <h1>This room does not exist.</h1>
+        </>
+    )
 
     if (!guestNameSelected) return (
         <>
