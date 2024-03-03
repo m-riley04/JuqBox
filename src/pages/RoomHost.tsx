@@ -55,6 +55,7 @@ function RoomHost() {
     }
     //#endregion Component Hanlders
 
+    const REFRESH_MS = 10000;
     useEffect(() => {
         // Check if the room exists
         handleCheckRoom();
@@ -66,14 +67,11 @@ function RoomHost() {
             // Delete the room from the database
             removeRoom(Number(params.code));
         }
-    }, []);
 
-
-    const REFRESH_MS = 10000;
-    useEffect(() => {
-        const interval = setInterval(() => {
+        // Update the user list
+        const interval = window.setInterval(() => {
             // Check if the room exists
-            if (!roomExists) return;
+            //if (!roomExists) return;
 
             // Get the guest list
             console.log("Refreshing the guest list...");
@@ -92,8 +90,8 @@ function RoomHost() {
                 });
         }, REFRESH_MS);
 
-        return () => clearInterval(interval);
-    }, [])
+        return () => window.clearInterval(interval);
+    }, []);
     
 
     // Check if the room exists
