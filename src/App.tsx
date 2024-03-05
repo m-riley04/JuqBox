@@ -9,6 +9,7 @@ import NavigationBar from "./components/NavigationBar/NavigationBar";
 import "./stylesheet.scss";
 import RoomHost from "./pages/RoomHost";
 import RoomUser from "./pages/RoomUser";
+import SpotifyAccount from "./pages/SpotifyAccount";
 
 function App() {
   return (
@@ -28,6 +29,8 @@ function App() {
               path="join/:code"
               element={<RoomUser/>}
           />
+          <Route path="spotify" element={<SpotifyAccount/>}/>
+          <Route path="auth/callback" element={<SpotifyAccount/>}/>
           <Route path="account" element={<Account/>}/>
           <Route path="login" element={<Login/>}/>
           <Route path="logout"/>
