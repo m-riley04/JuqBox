@@ -1,3 +1,41 @@
+/**
+ * Represents the a user's profile information stoted in JSON
+ * @prop {string} country
+ * @prop {string} display_name
+ * @prop {string} email
+ * @prop {JSON} explicit_content a JSON object containing "filter_enabled" and "filter_locked" boolean properties
+ * @prop {JSON} external_urls a JSON object containing a "spotify" string property 
+ * @prop {JSON} followers JSON object containing "href" string property and "total" number property
+ * @prop {string} href
+ * @prop {string} id
+ * @prop {Image[]} images
+ * @prop {string} product
+ * @prop {string} type
+ * @prop {string} uri
+ */
+export interface UserProfile {
+    country: string;
+    display_name: string;
+    email: string;
+    explicit_content: {
+        filter_enabled: boolean,
+        filter_locked: boolean
+    },
+    external_urls: { spotify: string; };
+    followers: { href: string; total: number; };
+    href: string;
+    id: string;
+    images: Image[];
+    product: string;
+    type: string;
+    uri: string;
+}
+
+/**
+ * @property {string} url
+ * @property {number} height
+ * @property {number} width
+ */
 function generateRandomString(length: number) {
     let text = '';
     const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
