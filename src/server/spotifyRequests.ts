@@ -42,6 +42,10 @@ export interface Image {
     width: number;
 }
 
+/**
+ * @param length the length of the random string
+ * @returns {string} a random string of characters
+ */
 function generateRandomString(length: number) {
     let text = '';
     const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
