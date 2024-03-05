@@ -7,7 +7,6 @@ import Account from "./pages/Account";
 import Login from "./pages/Login";
 import NavigationBar from "./components/NavigationBar/NavigationBar";
 import "./stylesheet.scss";
-import SpotifyResponse from "./pages/SpotifyResponse";
 import RoomHost from "./pages/RoomHost";
 import RoomUser from "./pages/RoomUser";
 
@@ -32,7 +31,6 @@ function App() {
           <Route path="account" element={<Account/>}/>
           <Route path="login" element={<Login/>}/>
           <Route path="logout"/>
-          <Route path="spotify-response" element={<SpotifyResponse/>}/>
           <Route path="*" element={<NotFound/>}/>
         </Routes>
         </div>
