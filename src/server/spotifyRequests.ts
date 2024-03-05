@@ -21,7 +21,6 @@ async function generateCodeChallenge(codeVerifier: string) {
         .replace(/=+$/, '');
 }
 
-export async function redirectToAuthCodeFlow(clientId: string) {
 /**
  * Redirects the page to the Spotify authorization page (login/accept screen)
  * @param {string} clientId the Spotify API app client id 
