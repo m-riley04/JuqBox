@@ -27,6 +27,7 @@ export async function redirectToAuthCodeFlow(clientId: string) {
  * @param {string} clientId the Spotify API app client id 
  * @param {string} scope a string of the Spotify API scopes to request access to. Each is separated by spaces.
  */
+export async function redirectToAuthCodeFlow(clientId: string, scope:string) {
     const verifier = generateRandomString(128);
     const challenge = await generateCodeChallenge(verifier);
 
@@ -36,7 +37,7 @@ export async function redirectToAuthCodeFlow(clientId: string) {
     params.append("client_id", clientId);
     params.append("response_type", "code");
     params.append("redirect_uri", window.location.origin + "/auth/callback");
-    params.append("scope", "streaming user-read-currently-playing");
+    params.append("scope", scope);
     params.append("code_challenge_method", "S256");
     params.append("code_challenge", challenge);
 
