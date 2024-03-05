@@ -68,3 +68,16 @@ export async function getAccessToken(clientId: string, code: string): Promise<st
     const { access_token } = await result.json();
     return access_token;
 }
+
+/**
+ * 
+ * @param token an access token from the Spotify API
+ * @returns {Promise<JSON>} a promise containing a user's profile data
+ */
+export async function fetchProfile(token: string): Promise<JSON> {
+    const result = await fetch("https://api.spotify.com/v1/me", {
+        method: "GET", headers: { Authorization: `Bearer ${token}` }
+    });
+
+    return await result.json();
+}
