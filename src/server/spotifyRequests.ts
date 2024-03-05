@@ -36,6 +36,12 @@ export interface UserProfile {
  * @property {number} height
  * @property {number} width
  */
+export interface Image {
+    url: string;
+    height: number;
+    width: number;
+}
+
 function generateRandomString(length: number) {
     let text = '';
     const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
