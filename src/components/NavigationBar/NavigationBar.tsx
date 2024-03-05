@@ -11,6 +11,7 @@ function NavigationBar() {
                         <Nav.Link as={Link} to="">Home</Nav.Link>
                         <Nav.Link as={Link} to="host">Host</Nav.Link>
                         <Nav.Link as={Link} to="join">Join</Nav.Link>
+                        <Nav.Link as={Link} to="spotify">Spotify</Nav.Link>
                     </Nav>
                     <Navbar.Brand as={Link} to="account" className="justify-content-end">
                         <img
