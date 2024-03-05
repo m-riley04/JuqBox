@@ -8,6 +8,10 @@ function generateRandomString(length: number) {
     return text;
 }
 
+/**
+ * @param codeVerifier
+ * @returns {string} a code challenge for the authorization PCKE
+ */
 async function generateCodeChallenge(codeVerifier: string) {
     const data = new TextEncoder().encode(codeVerifier);
     const digest = await window.crypto.subtle.digest('SHA-256', data);
@@ -18,6 +22,11 @@ async function generateCodeChallenge(codeVerifier: string) {
 }
 
 export async function redirectToAuthCodeFlow(clientId: string) {
+/**
+ * Redirects the page to the Spotify authorization page (login/accept screen)
+ * @param {string} clientId the Spotify API app client id 
+ * @param {string} scope a string of the Spotify API scopes to request access to. Each is separated by spaces.
+ */
     const verifier = generateRandomString(128);
     const challenge = await generateCodeChallenge(verifier);
 
@@ -34,6 +43,12 @@ export async function redirectToAuthCodeFlow(clientId: string) {
     document.location = `https://accounts.spotify.com/authorize?${params.toString()}`;
 }
 
+
+/**
+ * @param clientId the Spotify API app client id 
+ * @param codeChallenge the code challenge for PCKE
+ * @returns {Promise<string>} a promise that contains a user's access token
+ */
 export async function getAccessToken(clientId: string, code: string): Promise<string> {
     const verifier = localStorage.getItem("verifier");
 
