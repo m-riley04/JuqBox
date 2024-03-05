@@ -20,7 +20,7 @@ function RoomUser() {
         }
         // Append the current new guest
         const guest : Guest = {
-            id: guestId,
+            id: Number(guestId),
             name: guestName,
             queues_total: 0,
             queues: []
@@ -37,7 +37,7 @@ function RoomUser() {
     function handleFormSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
 
-        // TODO - check if guest name is valid
+        // TODO - check if guest name is valid/repeat
 
         setGuestNameSelected(true);
 
