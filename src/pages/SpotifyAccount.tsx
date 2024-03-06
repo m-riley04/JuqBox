@@ -1,9 +1,11 @@
 import { useEffect } from "react";
-import { fetchProfile, getAccessToken, redirectToAuthCodeFlow } from "../server/spotifyRequests";
+import { fetchProfile, getAccessToken, redirectToAuthCodeFlow } from "../server/spotifyAuthorization";
+import { useNavigate } from "react-router";
 
 const CLIENT_ID = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
 
 function SpotifyAccount() {
+    const navigate = useNavigate();
 
     useEffect(() => {
 
@@ -16,7 +18,10 @@ function SpotifyAccount() {
             } else {
                 const accessToken = await getAccessToken(CLIENT_ID, code_recieved);
                 const profile = await fetchProfile(accessToken);
-                console.log(profile);
+
+                navigate("../account", { state: {
+                    spotifyProfile: profile
+                }})
                 //populateUI(profile);
             }
         }
