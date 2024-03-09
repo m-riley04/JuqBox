@@ -18,8 +18,24 @@ export interface Artist {
     uri: string;
 }
 
+export interface Album {
+    album_type: string;
+    artists: Artist[];
+    available_markets: Array<string>;
+    external_urls: object;
+    href: string;
+    id: string;
+    images: Image[];
+    name: string;
+    release_date: string;
+    release_date_precision: string;
+    total_tracks: number;
+    type: string;
+    uri: string;
+}
+
 export interface Track {
-    album: object;
+    album: Album;
     artists: Array<Artist>;
     available_markets: Array<string>;
     disc_number: number;
