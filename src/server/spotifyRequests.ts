@@ -1,3 +1,14 @@
+/**
+ * @property {string} url
+ * @property {number} height
+ * @property {number} width
+ */
+export interface Image {
+    url: string;
+    height: number;
+    width: number;
+}
+
 export interface Artist {
     external_urls: object;
     href: string;

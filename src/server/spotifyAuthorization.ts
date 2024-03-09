@@ -1,3 +1,5 @@
+import { Image } from "./spotifyRequests";
+
 /**
  * Represents the a user's profile information stoted in JSON
  * @prop {string} country
@@ -29,17 +31,6 @@ export interface UserProfile {
     product: string;
     type: string;
     uri: string;
-}
-
-/**
- * @property {string} url
- * @property {number} height
- * @property {number} width
- */
-export interface Image {
-    url: string;
-    height: number;
-    width: number;
 }
 
 /**
