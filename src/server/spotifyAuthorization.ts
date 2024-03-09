@@ -91,7 +91,6 @@ export async function redirectToAuthCodeFlow(clientId: string, scope:string) {
     document.location = `https://accounts.spotify.com/authorize?${params.toString()}`;
 }
 
-
 /**
  * @param clientId the Spotify API app client id 
  * @param codeChallenge the code challenge for PCKE
@@ -110,6 +109,24 @@ export async function getAccessToken(clientId: string, code: string): Promise<st
     const result = await fetch("https://accounts.spotify.com/api/token", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: params
+    });
+
+    const { access_token } = await result.json();
+    return access_token;
+}
+
+export async function getServerAccessToken(client_id: string, client_secret: string): Promise<string> {
+    const params = new URLSearchParams();
+    params.append("grant_type", "client_credentials");
+    params.append("code", "");
+
+    const base64Credentials = btoa(`${client_id}:${client_secret}`)
+
+    const result = await fetch("https://accounts.spotify.com/api/token", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded",
+                    "Authorization": `Basic ${base64Credentials}`},
         body: params
     });
 
