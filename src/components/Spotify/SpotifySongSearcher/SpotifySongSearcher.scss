@@ -1,0 +1,11 @@
+@import "/src/stylesheet.scss";
+
+.track:hover {
+    cursor: pointer;
+    background-color: $button-hover;
+    transition-duration: $fade-duration;
+}
+
+.track {
+    transition-duration: $fade-duration;
+}

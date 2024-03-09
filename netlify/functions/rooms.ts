@@ -2,49 +2,65 @@ import type { Handler, HandlerEvent } from "@netlify/functions";
 import connection from "@netlify/planetscale";
 
 /**
- * Interface for the room table's rows
- * @key the title of the column
- * @value the value of the column
+ * Represents a queue from a guest
  * 
- * @param {string} id
- * @param {string} code
- * @param {string} name
- * @param {string} owner
- * @param {string} max_guests
- * @param {string} guests a JSON string containing all guest ids and data
- * @param {string} max_queues_per_guest
- * @param {string} queue_cost
- * @param {string} creation_date
+ * @param {string} song
+ * @param {string} artist
+ * @param {Date} date_queued
  */
-export interface Room {
-    id: string,
-    code: string,
-    name: string,
-    owner: string,
-    max_guests: number,
-    guests: string,
-    max_queues_per_guest: number,
-    queue_cost: number,
-    creation_date: Date
+export interface Queue {
+    song: string;
+    artist: string;
+    date_queued: Date;
 }
 
 /**
  * Represents a guest of a room
- * @key the name of the JSON entry
- * @value the value of the JSON entry
  * 
- * @param {string} id
+ * @param {number} id
  * @param {string} name
  * @param {number} queues_total
- * @param {string[]} queues a list of all the guest's previous and current queues
- * @param {string} max_queues_per_guest
- * @param {string} queue_cost
+ * @param {Queue[]} queues a list of all the guest's previous and current queues
  */
 export interface Guest {
-    id: string;
+    id: number;
     name: string;
     queues_total: number;
-    queues: string[]; 
+    queues: Queue[]; 
+}
+
+/**
+ * Represents the "guest" tag of a room
+ * 
+ * @param {Guest[]} guests the array of guests
+ */
+export interface RoomGuestsJSON {
+    guests: Guest[]
+}
+
+/**
+ * Interface for the room table's rows
+ * 
+ * @param {number} id
+ * @param {string} code
+ * @param {string} name
+ * @param {string} owner
+ * @param {number} max_guests
+ * @param {RoomGuestsJSON} guests a JSON containing all guests and guest data
+ * @param {number} max_queues_per_guest
+ * @param {number} queue_cost
+ * @param {Date} creation_date
+ */
+export interface Room {
+    id: number,
+    code: string,
+    name: string,
+    owner: string,
+    max_guests: number,
+    guests: RoomGuestsJSON,
+    max_queues_per_guest: number,
+    queue_cost: number,
+    creation_date: Date
 }
 
 // Function to get count of all rooms

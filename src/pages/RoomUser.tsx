@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { Guest, Room } from "../../netlify/functions/rooms";
 import { Form } from "react-bootstrap";
 import { generateGuestId, getRoomData, updateRoomGuests } from "../server/roomRequests";
+import SpotifySongSearcher from "../components/Spotify/SpotifySongSearcher/SpotifySongSearcher";
 
 function RoomUser() {
     const params = useParams();
@@ -13,17 +14,6 @@ function RoomUser() {
     const [guestId, setGuestId] = useState("");
     const [guests, setGuests] = useState<Guest[]>([]);
 
-    function handleGetRoomData() {
-        getRoomData(Number(params.code))
-        .then(data => {
-            setRoomData(data);
-            if (data.guests) setGuests(data.guests.guests);
-        })
-        .catch(error => {
-            console.error(error);
-        })
-    }
-
     function handleUpdateGuests() {
         if (!roomData) {
             // Catch if the room data is empty
@@ -31,7 +21,7 @@ function RoomUser() {
         }
         // Append the current new guest
         const guest : Guest = {
-            id: guestId,
+            id: Number(guestId),
             name: guestName,
             queues_total: 0,
             queues: []
@@ -41,15 +31,6 @@ function RoomUser() {
         updateRoomGuests({guests: guests}, Number(params.code));
     }
 
-    function handleGenerateUserId() {
-        try {
-            const id = generateGuestId(10, guests);
-            setGuestId(id);
-        } catch (e) {
-            console.error(e);
-        }
-    }
-
     function handleGuestNameChange(event: ChangeEvent<HTMLInputElement>) {
         setGuestName(event.target.value);
     }
@@ -57,7 +38,7 @@ function RoomUser() {
     function handleFormSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
 
-        // TODO - check if guest name is valid
+        // TODO - check if guest name is valid/repeat
 
         setGuestNameSelected(true);
 
@@ -65,11 +46,42 @@ function RoomUser() {
     }
 
     useEffect(() => {
+        function handleGenerateUserId() {
+            try {
+                const id = generateGuestId(10, guests);
+                setGuestId(id);
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        function handleGetRoomData() {
+            getRoomData(Number(params.code))
+            .then((data : Room) => {
+                setRoomData(data);
+                if (data) {
+                    if (data.guests) { 
+                        const guestJson = data.guests;
+                        setGuests(guestJson.guests); 
+                    }
+                }
+            })
+            .catch(error => {
+                console.error(error);
+            })
+        }
+
         handleGetRoomData();
 
         // Generate a user id
         handleGenerateUserId();
     }, [])
+
+    if (!roomData) return (
+        <>
+            <h1>This room does not exist.</h1>
+        </>
+    )
 
     if (!guestNameSelected) return (
         <>
@@ -92,7 +104,7 @@ function RoomUser() {
             <p>Currently Playing: [song name]</p>
 
             <h2>Select the songs you'd like to queue:</h2>
-            <p>[to be implemented]</p>
+            <SpotifySongSearcher/>
         </>
     );
 }

@@ -48,12 +48,12 @@ function HostRoom() {
 
         // Create the room
         createRoom({
-            id: code,
+            id: Number(code),
             code: code,
-            name: `${user?.nickname}'s Room` || roomName,
+            name: roomName || `${user?.nickname}'s Room`,
             owner: user?.sub || "",
             max_guests: roomMaxGuests,
-            guests: JSON.stringify({ guests: []}),
+            guests: JSON.stringify({ guests: [] }),
             max_queues_per_guest: roomMaxCoexistentQueues,
             queue_cost: roomQueueCost,
             creation_date: undefined
