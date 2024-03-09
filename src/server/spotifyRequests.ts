@@ -1,5 +1,3 @@
-export function getTracks(name:string, token:string) {
-    return fetch(`https://api.spotify.com/v1/search?q=remaster%2520track%3A${name}&type=track`, { headers: {Authorization: `Bearer ${token}`}})
 export interface Artist {
     external_urls: object;
     href: string;
@@ -29,6 +27,8 @@ export interface Track {
     uri: string;
 }
 
+export function getTracks(name:string, token:string) : Promise<Track[]> {
+    return fetch(`https://api.spotify.com/v1/search?q=remaster%2520track%3A${name}&type=track`, { method: "GET", headers: {Authorization: `Bearer ${token}`}})
         .then(response => {
             if (!response.ok) {
                 throw new Error("Track query response was not okay")
