@@ -2,7 +2,6 @@ import LogoutButton from "../components/Auth0/LogoutButton";
 import { useAuth0 } from "@auth0/auth0-react";
 import Profile from "../components/Auth0/Profile";
 import LoginButton from "../components/Auth0/LoginButton";
-import SpotifyAuthorizeButton from "../components/Spotify/SpotifyAuthorizeButton";
 
 function Account() {
     const { isAuthenticated, error, isLoading } = useAuth0();
@@ -36,7 +35,6 @@ function Account() {
     if (isAuthenticated) return (
         <>
             <Profile></Profile>
-            <SpotifyAuthorizeButton></SpotifyAuthorizeButton>
             <LogoutButton></LogoutButton>
         </>
     );
