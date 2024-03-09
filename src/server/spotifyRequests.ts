@@ -36,6 +36,6 @@ export function getTracks(name:string, token:string) : Promise<Track[]> {
             return response.json()
         })
         .then(data => {
-            return data.tracks
+            return data.tracks.items
         });
 }
