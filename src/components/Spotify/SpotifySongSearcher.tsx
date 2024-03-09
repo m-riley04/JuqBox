@@ -8,6 +8,13 @@ function SpotifySongSearcher() {
 
     const [tracks, setTracks] = useState<Track[]>();
     const [query, setQuery] = useState<string>("");
+
+    function handleQueryChanged(event: ChangeEvent<HTMLInputElement>) {
+        event.preventDefault();
+        
+        setQuery(event.target.value);
+    }
+
     return (
         <>
             
