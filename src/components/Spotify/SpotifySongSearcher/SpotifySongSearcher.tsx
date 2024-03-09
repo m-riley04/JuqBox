@@ -23,6 +23,11 @@ function SpotifySongSearcher() {
         handleQuery();
     }
 
+    function handleClickedTrack(index: number) {
+        console.log(`Clicked track #${index}`)
+        console.log(tracks[index]);
+    }
+
     function handleQuery() {
         if (!token) { console.warn("No access token provided."); return; }
         getTracks(query, token).then((data) => {
