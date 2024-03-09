@@ -53,7 +53,7 @@ function SpotifySongSearcher() {
                 <Button onClick={handleQuery}>Search</Button>
             </Form>
 
-            {tracks?.map((track) => <SpotifyTrackItem className="track" track={track}></SpotifyTrackItem>)}
+            {tracks?.map((track, i) => <SpotifyTrackItem className="track" onClick={() => handleClickedTrack(i)} track={track} key={i} index={i}></SpotifyTrackItem>)}
             
         </>
     );
