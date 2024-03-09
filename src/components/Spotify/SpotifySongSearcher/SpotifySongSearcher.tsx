@@ -1,7 +1,9 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import { Track, getTracks } from "../../server/spotifyRequests";
-import { getServerAccessToken } from "../../server/spotifyAuthorization";
+import { Track, getTracks } from "../../../server/spotifyRequests";
+import { getServerAccessToken } from "../../../server/spotifyAuthorization";
+import SpotifyTrackItem from "./SpotifyTrackItem";
+import "./SpotifySongSearcher.scss";
 
 function SpotifySongSearcher() {
     const [token, setToken] = useState("");
@@ -13,6 +15,12 @@ function SpotifySongSearcher() {
         event.preventDefault();
         
         setQuery(event.target.value);
+    }
+
+    function handleSubmit(event: FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+
+        handleQuery();
     }
 
     function handleQuery() {
@@ -32,7 +40,7 @@ function SpotifySongSearcher() {
 
     return (
         <>
-            <Form>
+            <Form onSubmit={handleSubmit}>
                 <Form.Group>
                     <Form.Control onChange={handleQueryChanged}></Form.Control>
                 </Form.Group>
@@ -40,7 +48,7 @@ function SpotifySongSearcher() {
                 <Button onClick={handleQuery}>Search</Button>
             </Form>
 
-            {tracks?.map((track) => <li>{track.name} - {track.artists.map((artist) => artist.name + ", ")}</li>)}
+            {tracks?.map((track) => <SpotifyTrackItem className="track" track={track}></SpotifyTrackItem>)}
             
         </>
     );
