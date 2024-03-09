@@ -66,3 +66,13 @@ export function getTracks(name:string, token:string) : Promise<Track[]> {
             return data.tracks.items
         });
 }
+
+export function appendToQueue(track_uri:string, token: string) {
+    return fetch(`https://api.spotify.com/v1/me/player/queue?uri=${track_uri}`, 
+    {
+        method: "POST",
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
+}
