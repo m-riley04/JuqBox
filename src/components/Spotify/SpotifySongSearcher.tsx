@@ -23,6 +23,13 @@ function SpotifySongSearcher() {
         })
     }
 
+    useEffect(() => {
+        getServerAccessToken(import.meta.env.VITE_SPOTIFY_CLIENT_ID, import.meta.env.VITE_SPOTIFY_SECRET)
+            .then((data) => {
+                setToken(data);
+            })
+    }, [])
+
     return (
         <>
             
