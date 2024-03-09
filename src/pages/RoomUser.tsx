@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { Guest, Room } from "../../netlify/functions/rooms";
 import { Form } from "react-bootstrap";
 import { generateGuestId, getRoomData, updateRoomGuests } from "../server/roomRequests";
-import SpotifySongSearcher from "../components/Spotify/SpotifySongSearcher";
+import SpotifySongSearcher from "../components/Spotify/SpotifySongSearcher/SpotifySongSearcher";
 
 function RoomUser() {
     const params = useParams();
