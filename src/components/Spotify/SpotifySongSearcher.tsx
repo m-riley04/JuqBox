@@ -15,6 +15,14 @@ function SpotifySongSearcher() {
         setQuery(event.target.value);
     }
 
+    function handleQuery() {
+        if (!token) { console.warn("No access token provided."); return; }
+        getTracks(query, token).then((data) => {
+            setTracks(data);
+            console.log(data);
+        })
+    }
+
     return (
         <>
             
