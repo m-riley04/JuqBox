@@ -9,3 +9,7 @@
 .track {
     transition-duration: $fade-duration;
 }
+
+.selected {
+    background-color: $button;
+}
