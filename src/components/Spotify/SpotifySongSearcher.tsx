@@ -32,6 +32,15 @@ function SpotifySongSearcher() {
 
     return (
         <>
+            <Form>
+                <Form.Group>
+                    <Form.Control onChange={handleQueryChanged}></Form.Control>
+                </Form.Group>
+
+                <Button onClick={handleQuery}>Search</Button>
+            </Form>
+
+            {tracks?.map((track) => <li>{track.name} - {track.artists.map((artist) => artist.name + ", ")}</li>)}
             
         </>
     );
